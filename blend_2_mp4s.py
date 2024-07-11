@@ -13,42 +13,49 @@ import _date_time_utils
 
 
 _os_path = _os.path
-_data_folder_name = None
-_mp4_out_file_name = None
+_script_basename = None
 _parser = None
 _arguments = None
-_override_arguments = False
-_mp4_in1_file_name = None
-_mp4_in2_file_name = None
+_ffmpeg_command = None
+
+data_folder_name = None
+mp4_out_file_name = None
+arguments_overridden = False
+mp4_in1_file_name = None
+mp4_in2_file_name = None
 
 
 def _create_context():
-    global _data_folder_name
-    global _mp4_out_file_name
+    global _script_basename
+    global data_folder_name
+    global mp4_out_file_name
 
-    if _data_folder_name is None:
-        _data_folder_name = _os_path.dirname(__file__)
-        _data_folder_name = _os_path.join(_data_folder_name, ".blend_2_mp4s_data")
+    _script_basename = _os_path.basename(__file__)
+    script_no_ext, _ = _os_path.splitext(_script_basename)
 
-    print(f"{_data_folder_name = }")
-    _os.makedirs(_data_folder_name, exist_ok=True)
+    if data_folder_name is None:
+        data_folder_name = _os_path.dirname(__file__)
+        data_folder_name = _os_path.join(data_folder_name, f".{script_no_ext}_data")
+
+    # print(f"{data_folder_name = }")
+    _os.makedirs(data_folder_name, exist_ok=True)
     timestamp = _date_time_utils.find_now_custom_date_time_string()
 
-    if _mp4_out_file_name is None:
-        _mp4_out_file_name = _os_path.join(_data_folder_name, f"output-{timestamp}.mp4")
+    if mp4_out_file_name is None:
+        mp4_out_file_name = _os_path.join(data_folder_name, f"output-{timestamp}.mp4")
 
-    print(f"{_mp4_out_file_name = }")
+    # print(f"{mp4_out_file_name = }")
 
 
 def _parse_arguments():
     global _parser
     global _arguments
-    global _mp4_in1_file_name
-    global _mp4_in2_file_name
+    global mp4_in1_file_name
+    global mp4_in2_file_name
 
     _parser = _ArgumentParser(
-        prog="blend_2_mp4s.py",
-        usage="python blend_2_mp4s.py <mp4-in1-file-name> <mp4-in2-file-name>",
+        prog=_script_basename,
+        usage=f"python {_script_basename} <mp4-in1-file-name> <mp4-in2-file-name>",
         description="Blends 2 MP4 videos into 1 MP4 video.",
         epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU GPL3/3+ License."
     )
@@ -67,28 +74,30 @@ def _parse_arguments():
         metavar="string"
     )
 
-    if not _override_arguments:
+    if not arguments_overridden:
         _arguments = _parser.parse_args()
 
-        if _mp4_in1_file_name is None:
-            _mp4_in1_file_name = _arguments.mp4_in1_file_name
+        if mp4_in1_file_name is None:
+            mp4_in1_file_name = _arguments.mp4_in1_file_name
 
-        if _mp4_in2_file_name is None:
-            _mp4_in2_file_name = _arguments.mp4_in2_file_name
+        if mp4_in2_file_name is None:
+            mp4_in2_file_name = _arguments.mp4_in2_file_name
 
-        _mp4_in1_file_name = _os_path.abspath(_mp4_in1_file_name)
-        _mp4_in2_file_name = _os_path.abspath(_mp4_in2_file_name)
+        mp4_in1_file_name = _os_path.abspath(mp4_in1_file_name)
+        mp4_in2_file_name = _os_path.abspath(mp4_in2_file_name)
 
-    print(f"{_mp4_in1_file_name = }")
-    print(f"{_mp4_in2_file_name = }")
+    # print(f"{mp4_in1_file_name = }")
+    # print(f"{mp4_in2_file_name = }")
 
 
 def _blend_2_mp4s():
-    in1 = _mp4_in1_file_name
-    in2 = _mp4_in2_file_name
-    out1 = _mp4_out_file_name
+    global _ffmpeg_command
 
-    command =\
+    in1 = mp4_in1_file_name
+    in2 = mp4_in2_file_name
+    out1 = mp4_out_file_name
+
+    _ffmpeg_command =\
         f"ffmpeg"\
         + f"  -i \"{in1}\""\
         + f"  -i \"{in2}\""\
@@ -104,19 +113,26 @@ def _blend_2_mp4s():
         + f"  -profile:v high"\
         + f"  \"{out1}\""
 
-    print(f"{command = }")
-    _os.system(command)
+    print(f"{_ffmpeg_command = }")
+    _os.system(_ffmpeg_command)
 
 
 def main():
     """
     Starts the main procedure.
     """
-    print("begin Blend 2 MP4s")
+    print(f"begin {_script_basename}")
     _create_context()
     _parse_arguments()
     _blend_2_mp4s()
-    print("end Blend 2 MP4s")
+
+    print(
+        f"{mp4_in1_file_name = :s}\n"
+        + f"{mp4_in2_file_name = :s}\n"
+        + f"{mp4_out_file_name = :s}"
+    )
+
+    print(f"end {_script_basename}")
 
 
 if __name__ == "__main__":
