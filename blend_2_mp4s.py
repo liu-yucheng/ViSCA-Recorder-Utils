@@ -17,6 +17,7 @@ _data_folder_name = None
 _mp4_out_file_name = None
 _parser = None
 _arguments = None
+_override_arguments = False
 _mp4_in1_file_name = None
 _mp4_in2_file_name = None
 
@@ -66,16 +67,19 @@ def _parse_arguments():
         metavar="string"
     )
 
-    _arguments = _parser.parse_args()
+    if not _override_arguments:
+        _arguments = _parser.parse_args()
 
-    if _mp4_in1_file_name is None:
-        _mp4_in1_file_name = _arguments.mp4_in1_file_name
+        if _mp4_in1_file_name is None:
+            _mp4_in1_file_name = _arguments.mp4_in1_file_name
+
+        if _mp4_in2_file_name is None:
+            _mp4_in2_file_name = _arguments.mp4_in2_file_name
+
+        _mp4_in1_file_name = _os_path.abspath(_mp4_in1_file_name)
+        _mp4_in2_file_name = _os_path.abspath(_mp4_in2_file_name)
 
     print(f"{_mp4_in1_file_name = }")
-
-    if _mp4_in2_file_name is None:
-        _mp4_in2_file_name = _arguments.mp4_in2_file_name
-
     print(f"{_mp4_in2_file_name = }")
 
 
