@@ -18,6 +18,7 @@ _concat_file_name = None
 _mp4_file_name = None
 _parser = None
 _arguments = None
+_override_arguments = False
 _pngs_folder_name = None
 
 
@@ -64,10 +65,13 @@ def _parse_arguments():
         metavar="string"
     )
 
-    _arguments = _parser.parse_args()
+    if not _override_arguments:
+        _arguments = _parser.parse_args()
 
-    if _pngs_folder_name is None:
-        _pngs_folder_name = _arguments.pngs_folder_name
+        if _pngs_folder_name is None:
+            _pngs_folder_name = _arguments.pngs_folder_name
+
+        _pngs_folder_name = _os_path.abspath(_pngs_folder_name)
 
     print(f"{_pngs_folder_name = }")
 
@@ -75,21 +79,35 @@ def _parse_arguments():
 def _generate_concat_demuxer():
     pngs_exists = _os_path.exists(_pngs_folder_name)
     pngs_isdir = _os_path.isdir(_pngs_folder_name)
-    pngs_file_names = []
+    png_file_names = []
 
     if pngs_exists and pngs_isdir:
-        pngs_file_names = _os.listdir(_pngs_folder_name)
+        png_file_names = _os.listdir(_pngs_folder_name)
 
+    for index, png_file_name in enumerate(png_file_names):
+        png_file_names[index] = _os_path.join(_pngs_folder_name, png_file_name)
+
+    new_png_file_names = []
+
+    for png_file_name in png_file_names:
+        png_exists = _os_path.exists(png_file_name)
+        png_isfile = _os_path.isfile(png_file_name)
+
+        if png_exists and png_isfile:
+            new_png_file_names.append(png_file_name)
+        # end if
+    # end if
+
+    png_file_names = new_png_file_names
     prev_ms = 0
     curr_ms = 0
     concat_lines = []
 
-    for png_file_name in pngs_file_names:
-        png_path = _os_path.join(_pngs_folder_name, png_file_name)
-        concat_lines.append(f"file '{png_path}'")
-
-        png_root, _ = _os_path.splitext(png_file_name)
-        curr_ms = int(png_root)
+    for png_file_name in png_file_names:
+        concat_lines.append(f"file '{png_file_name}'")
+        png_basename = _os_path.basename(png_file_name)
+        png_basename_no_ext, _ = _os_path.splitext(png_basename)
+        curr_ms = int(png_basename_no_ext)
         dur_ms = curr_ms - prev_ms
         dur_secs = dur_ms / 1000
         prev_ms = curr_ms
