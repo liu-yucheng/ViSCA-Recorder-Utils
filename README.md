@@ -29,6 +29,12 @@
 - Performs a batch of `timed_pngs_to_mp4.py` operations.
 - `python batch_timed_pngs_to_mp4.py <nested-pngs-folder-name>`
 
+## `concat_mp4s.py`
+
+- Converts a sequence of MP4 videos to an MP4 video by concatenating them.
+- Concatenates MP4s in ascending alphanumerical order.
+- `python concat_mp4s.py <mp4s-folder-name>`
+
 # Copyright
 
 ```

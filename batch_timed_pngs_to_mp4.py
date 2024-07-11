@@ -14,42 +14,48 @@ import _date_time_utils
 
 
 _os_path = _os.path
-_data_folder_name = None
-_output_folder_name = None
+_script_basename = None
 _parser = None
 _arguments = None
-_override_arguments = False
-_nested_pngs_folder_name = None
 _pngs_folder_names = None
+
+data_folder_name = None
+output_folder_name = None
+arguments_overridden = False
+nested_pngs_folder_name = None
 
 
 def _create_context():
-    global _data_folder_name
-    global _output_folder_name
+    global _script_basename
+    global data_folder_name
+    global output_folder_name
 
-    if _data_folder_name is None:
-        _data_folder_name = _os_path.dirname(__file__)
-        _data_folder_name = _os_path.join(_data_folder_name, ".batch_timed_pngs_to_mp4_data")
+    _script_basename = _os_path.basename(__file__)
+    script_no_ext, _ = _os_path.splitext(_script_basename)
 
-    print(f"{_data_folder_name = }")
+    if data_folder_name is None:
+        data_folder_name = _os_path.dirname(__file__)
+        data_folder_name = _os_path.join(data_folder_name, f".{script_no_ext}_data")
+
+    # print(f"{data_folder_name = }")
     # _os.makedirs(_data_folder_name, exist_ok=True)
     timestamp = _date_time_utils.find_now_custom_date_time_string()
 
-    if _output_folder_name is None:
-        _output_folder_name = _os_path.join(_data_folder_name, f"output-{timestamp}")
+    if output_folder_name is None:
+        output_folder_name = _os_path.join(data_folder_name, f"output-{timestamp}")
 
-    print(f"{_output_folder_name = }")
-    _os.makedirs(_output_folder_name, exist_ok=True)
+    # print(f"{output_folder_name = }")
+    _os.makedirs(output_folder_name, exist_ok=True)
 
 
 def _parse_arguments():
     global _parser
     global _arguments
-    global _nested_pngs_folder_name
+    global nested_pngs_folder_name
 
     _parser = _ArgumentParser(
-        prog="batch_timed_pngs_to_mp4.py",
-        usage="python batch_timed_pngs_to_mp4.py <nested-pngs-folder-name>",
+        prog=_script_basename,
+        usage=f"python {_script_basename} <nested-pngs-folder-name>",
         description="Performs a batch of \"timed PNGs to MP4\" operations.",
         epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU GPL3/3+ License."
     )
@@ -61,72 +67,77 @@ def _parse_arguments():
         metavar="string"
     )
 
-    if not _override_arguments:
+    if not arguments_overridden:
         _arguments = _parser.parse_args()
 
-        if _nested_pngs_folder_name is None:
-            _nested_pngs_folder_name = _arguments.nested_pngs_folder_name
+        if nested_pngs_folder_name is None:
+            nested_pngs_folder_name = _arguments.nested_pngs_folder_name
 
-        _nested_pngs_folder_name = _os_path.abspath(_nested_pngs_folder_name)
+        nested_pngs_folder_name = _os_path.abspath(nested_pngs_folder_name)
 
-    print(f"{_nested_pngs_folder_name = }")
+    # print(f"{nested_pngs_folder_name = }")
 
 
 def _probe_timed_png_folders():
     global _pngs_folder_names
 
-    nested_exist = _os_path.exists(_nested_pngs_folder_name)
-    nested_isdir = _os_path.isdir(_nested_pngs_folder_name)
-    subfolder_names = []
+    _pngs_folder_names = []
+    nested_isdir = _os_path.isdir(nested_pngs_folder_name)
 
-    if nested_exist and nested_isdir:
-        subfolder_names = _os.listdir(_nested_pngs_folder_name)
+    if nested_isdir:
+        _pngs_folder_names = _os.listdir(nested_pngs_folder_name)
 
-    if _pngs_folder_names is None:
-        _pngs_folder_names = []
+    for index, folder_name in enumerate(_pngs_folder_names):
+        _pngs_folder_names[index] = _os_path.join(nested_pngs_folder_name, folder_name)
 
-    if isinstance(_pngs_folder_names, list):
-        _pngs_folder_names.clear()
+    new_pngs_folder_names = []
 
-    for subfolder_name in subfolder_names:
-        subfolder_name = _os_path.join(_nested_pngs_folder_name, subfolder_name)
-        subfolder_isdir = _os_path.isdir(subfolder_name)
+    for folder_name in _pngs_folder_names:
+        folder_isdir = _os_path.isdir(folder_name)
 
-        if subfolder_isdir:
-            _pngs_folder_names.append(subfolder_name)
+        if folder_isdir:
+            new_pngs_folder_names.append(folder_name)
         # end if
     # end for
 
-    print(f"{_pngs_folder_names = }")
+    _pngs_folder_names = new_pngs_folder_names
+
+    # print(f"{_pngs_folder_names = }")
 
 
 def _perform_batch_operations():
-    print(f"begin Batch operations")
+    print("begin Batch operations")
 
-    for index, pngs_folder_name in enumerate(_pngs_folder_names):
+    for index, folder_name in enumerate(_pngs_folder_names):
         print(f"begin Operation {index + 1}/{len(_pngs_folder_names)}")
-        pngs_folder_base_name = _os_path.basename(pngs_folder_name)
-        _timed_pngs_to_mp4._data_folder_name = _output_folder_name
-        _timed_pngs_to_mp4._concat_file_name = _os_path.join(_output_folder_name, f"{pngs_folder_base_name}.txt")
-        _timed_pngs_to_mp4._mp4_file_name = _os_path.join(_output_folder_name, f"{pngs_folder_base_name}.mp4")
-        _timed_pngs_to_mp4._override_arguments = True
-        _timed_pngs_to_mp4._pngs_folder_name = pngs_folder_name
+        folder_basename = _os_path.basename(folder_name)
+        _timed_pngs_to_mp4.data_folder_name = output_folder_name
+        _timed_pngs_to_mp4.concat_file_name = _os_path.join(output_folder_name, f"{folder_basename}.txt")
+        _timed_pngs_to_mp4.mp4_file_name = _os_path.join(output_folder_name, f"{folder_basename}.mp4")
+        _timed_pngs_to_mp4.arguments_overridden = True
+        _timed_pngs_to_mp4.pngs_folder_name = folder_name
         _timed_pngs_to_mp4.main()
         print(f"end Operation {index + 1}/{len(_pngs_folder_names)}")
 
-    print(f"end Batch operations")
+    print("end Batch operations")
 
 
 def main():
     """
     Starts the main procedure.
     """
-    print("begin Batch timed PNGs to MP4")
+    print(f"begin {_script_basename}")
     _create_context()
     _parse_arguments()
     _probe_timed_png_folders()
     _perform_batch_operations()
-    print("end Batch timed PNGs to MP4")
+
+    print(
+        f"{nested_pngs_folder_name = :s}\n"
+        + f"{output_folder_name = :s}"
+    )
+
+    print(f"end {_script_basename}")
 
 
 if __name__ == "__main__":
