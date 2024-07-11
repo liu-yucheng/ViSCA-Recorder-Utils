@@ -24,6 +24,11 @@
 - Uses the 2nd MP4 video as an overlay on the 1st MP4 video.
 - `python blend_2_mp4s.py <mp4-in1-file-name> <mp4-in2-file-name>`
 
+## `batch_timed_pngs_to_mp4.py`
+
+- Performs a batch of `timed_pngs_to_mp4.py` operations.
+- `python batch_timed_pngs_to_mp4.py <nested-pngs-folder-name>`
+
 # Copyright
 
 ```
