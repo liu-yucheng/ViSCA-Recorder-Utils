@@ -10,11 +10,11 @@ Performs a batch of "timed PNGs to MP4" operations.
 from argparse import ArgumentParser as _ArgumentParser
 import os as _os
 import timed_pngs_to_mp4 as _timed_pngs_to_mp4
-import _date_time_utils
+import _datetime_utils
 
 
 _os_path = _os.path
-_script_basename = None
+_script_basename = _os_path.basename(__file__)
 _parser = None
 _arguments = None
 _pngs_folder_names = None
@@ -26,25 +26,21 @@ nested_pngs_folder_name = None
 
 
 def _create_context():
-    global _script_basename
     global data_folder_name
     global output_folder_name
 
-    _script_basename = _os_path.basename(__file__)
     script_no_ext, _ = _os_path.splitext(_script_basename)
 
     if data_folder_name is None:
         data_folder_name = _os_path.dirname(__file__)
         data_folder_name = _os_path.join(data_folder_name, f".{script_no_ext}_data")
 
-    # print(f"{data_folder_name = }")
-    # _os.makedirs(_data_folder_name, exist_ok=True)
-    timestamp = _date_time_utils.find_now_custom_date_time_string()
+    _os.makedirs(data_folder_name, exist_ok=True)
+    timestamp = _datetime_utils.find_now_custom_date_time_string()
 
     if output_folder_name is None:
         output_folder_name = _os_path.join(data_folder_name, f"output-{timestamp}")
 
-    # print(f"{output_folder_name = }")
     _os.makedirs(output_folder_name, exist_ok=True)
 
 
@@ -75,8 +71,6 @@ def _parse_arguments():
 
         nested_pngs_folder_name = _os_path.abspath(nested_pngs_folder_name)
 
-    # print(f"{nested_pngs_folder_name = }")
-
 
 def _probe_timed_png_folders():
     global _pngs_folder_names
@@ -86,6 +80,7 @@ def _probe_timed_png_folders():
 
     if nested_isdir:
         _pngs_folder_names = _os.listdir(nested_pngs_folder_name)
+        _pngs_folder_names.sort()
 
     for index, folder_name in enumerate(_pngs_folder_names):
         _pngs_folder_names[index] = _os_path.join(nested_pngs_folder_name, folder_name)
@@ -101,8 +96,6 @@ def _probe_timed_png_folders():
     # end for
 
     _pngs_folder_names = new_pngs_folder_names
-
-    # print(f"{_pngs_folder_names = }")
 
 
 def _perform_batch_operations():

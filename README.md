@@ -33,7 +33,13 @@
 
 - Converts a sequence of MP4 videos to an MP4 video by concatenating them.
 - Concatenates MP4s in ascending alphanumerical order.
-- `python concat_mp4s.py <mp4s-folder-name>`
+- `python concat_mp4s.py <mp4s-in-folder-name>`
+
+## `concat_record_jsons.py`
+
+- Converts a sequence of record JSON files to a JSON file by concatenating them.
+- Concatenates JSONs in ascending alphanumerical order.
+- `python concat_record_jsons.py <jsons-in-folder-name>`
 
 # Copyright
 
