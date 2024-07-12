@@ -9,11 +9,11 @@ Converts a sequence of timed PNG images to an MP4 video.
 
 from argparse import ArgumentParser as _ArgumentParser
 import os as _os
-import _date_time_utils
+import _datetime_utils
 
 
 _os_path = _os.path
-_script_basename = None
+_script_basename = _os_path.basename(__file__)
 _parser = None
 _arguments = None
 _ffmpeg_command = None
@@ -26,31 +26,24 @@ pngs_folder_name = None
 
 
 def _create_context():
-    global _script_basename
     global data_folder_name
     global concat_file_name
     global mp4_file_name
 
-    _script_basename = _os_path.basename(__file__)
     script_no_ext, _ = _os_path.splitext(_script_basename)
 
     if data_folder_name is None:
         data_folder_name = _os_path.dirname(__file__)
         data_folder_name = _os_path.join(data_folder_name, f".{script_no_ext}_data")
 
-    # print(f"{data_folder_name = }")
     _os.makedirs(data_folder_name, exist_ok=True)
-    timestamp = _date_time_utils.find_now_custom_date_time_string()
+    timestamp = _datetime_utils.find_now_custom_date_time_string()
 
     if concat_file_name is None:
         concat_file_name = _os_path.join(data_folder_name, f"concat-{timestamp}.txt")
 
-    # print(f"{concat_file_name = }")
-
     if mp4_file_name is None:
         mp4_file_name = _os_path.join(data_folder_name, f"output-{timestamp}.mp4")
-
-    # print(f"{mp4_file_name = }")
 
 
 def _parse_arguments():
@@ -80,8 +73,6 @@ def _parse_arguments():
 
         pngs_folder_name = _os_path.abspath(pngs_folder_name)
 
-    # print(f"{pngs_folder_name = }")
-
 
 def _generate_concat_demuxer():
     pngs_isdir = _os_path.isdir(pngs_folder_name)
@@ -89,6 +80,7 @@ def _generate_concat_demuxer():
 
     if pngs_isdir:
         png_file_names = _os.listdir(pngs_folder_name)
+        png_file_names.sort()
 
     for index, file_name in enumerate(png_file_names):
         png_file_names[index] = _os_path.join(pngs_folder_name, file_name)
@@ -126,6 +118,7 @@ def _generate_concat_demuxer():
     with open(concat_file_name, mode="w", encoding="utf-8") as concat_file:
         concat_file.write(concat_str)
     # end with
+# end def
 
 
 def _convert_pngs_to_mp4():

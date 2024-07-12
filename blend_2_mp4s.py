@@ -9,11 +9,11 @@ Uses the 2nd MP4 videos as an overlay on the 1st MP4 video.
 
 from argparse import ArgumentParser as _ArgumentParser
 import os as _os
-import _date_time_utils
+import _datetime_utils
 
 
 _os_path = _os.path
-_script_basename = None
+_script_basename = _os_path.basename(__file__)
 _parser = None
 _arguments = None
 _ffmpeg_command = None
@@ -26,25 +26,20 @@ mp4_in2_file_name = None
 
 
 def _create_context():
-    global _script_basename
     global data_folder_name
     global mp4_out_file_name
 
-    _script_basename = _os_path.basename(__file__)
     script_no_ext, _ = _os_path.splitext(_script_basename)
 
     if data_folder_name is None:
         data_folder_name = _os_path.dirname(__file__)
         data_folder_name = _os_path.join(data_folder_name, f".{script_no_ext}_data")
 
-    # print(f"{data_folder_name = }")
     _os.makedirs(data_folder_name, exist_ok=True)
-    timestamp = _date_time_utils.find_now_custom_date_time_string()
+    timestamp = _datetime_utils.find_now_custom_date_time_string()
 
     if mp4_out_file_name is None:
         mp4_out_file_name = _os_path.join(data_folder_name, f"output-{timestamp}.mp4")
-
-    # print(f"{mp4_out_file_name = }")
 
 
 def _parse_arguments():
@@ -85,9 +80,6 @@ def _parse_arguments():
 
         mp4_in1_file_name = _os_path.abspath(mp4_in1_file_name)
         mp4_in2_file_name = _os_path.abspath(mp4_in2_file_name)
-
-    # print(f"{mp4_in1_file_name = }")
-    # print(f"{mp4_in2_file_name = }")
 
 
 def _blend_2_mp4s():
