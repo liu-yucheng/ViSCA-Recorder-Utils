@@ -35,11 +35,16 @@
 - Concatenates MP4s in ascending alphanumerical order.
 - `python concat_mp4s.py <mp4s-in-folder-name>`
 
-## `concat_record_jsons.py`
+## `concat_recorder_jsons.py`
 
-- Converts a sequence of record JSON files to a JSON file by concatenating them.
+- Converts a sequence of ViSCA Recorder JSON files to a JSON file by concatenating them.
 - Concatenates JSONs in ascending alphanumerical order.
-- `python concat_record_jsons.py <jsons-in-folder-name>`
+- `python concat_recorder_jsons.py <jsons-in-folder-name>`
+
+## `process_recorder_data.py`
+
+- Processes a folder of ViSCA Recorder data.
+- `python process_recorder_data.py <recorder-folder-name>`
 
 # Copyright
 
