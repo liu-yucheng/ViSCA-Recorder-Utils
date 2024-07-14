@@ -44,6 +44,9 @@
 ## `process_recorder_data.py`
 
 - Processes a folder of ViSCA Recorder data.
+- Step 1. Uses `batch_timed_pngs_to_mp4.py` to convert all captured frames (in the form of nested timed PNG folders) into video clips (in the form of MP4 files).
+- Step 2. Uses `concat_mp4s.py` to concatenate all converted video clips (the output of step 1) into 1 complete video file (in the form of an MP4 file).
+- Step 3. Uses `concat_recorder_jsons.py` to concatenate all recorded textual data files (in the form of JSON files) into 1 complete textual data file (in the form of a JSON file).
 - `python process_recorder_data.py <recorder-folder-name>`
 
 # Copyright
