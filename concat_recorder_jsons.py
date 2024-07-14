@@ -1,6 +1,6 @@
 """
-Concatenate record JSONs.
-Converts a sequence of record JSON files to a JSON file by concatenating them.
+Concatenate recorder JSONs.
+Converts a sequence of ViSCA Recorder JSON files to a JSON file by concatenating them.
 """
 
 # Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License.
@@ -50,14 +50,14 @@ def _parse_arguments():
     _parser = _ArgumentParser(
         prog=_script_basename,
         usage=f"python {_script_basename} <jsons-in-folder-name>",
-        description="Converts a sequence of record JSON files to a JSON file by concatenating them.",
+        description="Converts a sequence of ViSCA Recorder JSON files to a JSON file by concatenating them.",
         epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU GPL3/3+ License."
     )
 
     _parser.add_argument(
         "jsons_in_folder_name",
         type=str,
-        help="The folder name of the record JSON file sequence",
+        help="The folder name of the ViSCA Recorder JSON file sequence",
         metavar="string"
     )
 
