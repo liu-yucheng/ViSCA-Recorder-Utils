@@ -9,7 +9,6 @@ Processes a folder of ViSCA Recorder data.
 
 from argparse import ArgumentParser as _ArgumentParser
 import os as _os
-import timed_pngs_to_mp4 as _timed_pngs_to_mp4
 import _datetime_utils
 import batch_timed_pngs_to_mp4 as _batch_timed_pngs_to_mp4
 import concat_mp4s as _concat_mp4s
@@ -145,7 +144,7 @@ def _perform_concat_recorder_jsons():
 
     for index, file_name in enumerate(json_in_file_names):
         json_in_file_names[index] = _os_path.join(recorder_folder_name, file_name)
-    
+
     new_json_in_file_names = []
 
     for file_name in json_in_file_names:
@@ -180,8 +179,8 @@ def main():
     _perform_concat_recorder_jsons()
 
     print(
-        f"{recorder_folder_name=:s}\n"
-        + f"{outputs_folder_name=:s}"
+        f"{recorder_folder_name = :s}\n"
+        + f"{outputs_folder_name = :s}"
     )
 
     print(f"end {_script_basename}")
