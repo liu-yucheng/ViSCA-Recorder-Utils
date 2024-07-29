@@ -14,8 +14,8 @@
 ## `timed_pngs_to_mp4.py`
 
 - Converts a sequence of timed PNG images to an MP4 video.
-- PNG file name format: `%08d.png`.
-- PNG sequence time unit: milliseconds.
+- PNG file name format: `%11d.png`.
+- PNG sequence time unit: microseconds (us).
 - `python timed_pngs_to_mp4.py <pngs-folder-name>`.
 
 ## `blend_2_mp4s.py`

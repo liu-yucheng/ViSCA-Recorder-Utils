@@ -99,19 +99,19 @@ def _generate_concat_demuxer():
     # end if
 
     png_file_names = new_png_file_names
-    prev_ms = 0
-    curr_ms = 0
+    prev_time_us = 0
+    curr_time_us = 0
     concat_lines = []
 
     for file_name in png_file_names:
         concat_lines.append(f"file '{file_name}'")
         png_basename = _os_path.basename(file_name)
         png_no_ext, _ = _os_path.splitext(png_basename)
-        curr_ms = int(png_no_ext)
-        dur_ms = curr_ms - prev_ms
-        dur_secs = dur_ms / 1000
-        prev_ms = curr_ms
-        concat_lines.append(f"duration {dur_secs:3f}")
+        curr_time_us = int(png_no_ext)
+        duration_us = curr_time_us - prev_time_us
+        duration_seconds = duration_us / 1_000_000
+        prev_time_us = curr_time_us
+        concat_lines.append(f"duration {duration_seconds:6f}")
 
     concat_str = "\n".join(concat_lines)
 
