@@ -53,15 +53,15 @@ def _parse_arguments():
 
     _parser = _ArgumentParser(
         prog=_script_basename,
-        usage=f"python {_script_basename} <pngs-folder-name>",
+        usage=f"python {_script_basename} [--help] <pngs-folder-name>",
         description="Converts a sequence of timed PNG images to an MP4 video.",
-        epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU GPL3/3+ License."
+        epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License."
     )
 
     _parser.add_argument(
         "pngs_folder_name",
         type=str,
-        help="The folder name of the PNG timed image sequence",
+        help="The folder name of the PNG timed image sequence.",
         metavar="string"
     )
 
