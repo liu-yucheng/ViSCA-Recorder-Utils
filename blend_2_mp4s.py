@@ -50,9 +50,9 @@ def _parse_arguments():
 
     _parser = _ArgumentParser(
         prog=_script_basename,
-        usage=f"python {_script_basename} <mp4-in1-file-name> <mp4-in2-file-name>",
+        usage=f"python {_script_basename} [--help] <mp4-in1-file-name> <mp4-in2-file-name>",
         description="Blends 2 MP4 videos into 1 MP4 video.",
-        epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU GPL3/3+ License."
+        epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License."
     )
 
     _parser.add_argument(
