@@ -53,15 +53,15 @@ def _parse_arguments():
 
     _parser = _ArgumentParser(
         prog=_script_basename,
-        usage=f"python {_script_basename} <mp4s-in-folder-name>",
+        usage=f"python {_script_basename} [--help] <mp4s-in-folder-name>",
         description="Converts a sequence of MP4 videos to an MP4 video by concatenating them.",
-        epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU GPL3/3+ License."
+        epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License."
     )
 
     _parser.add_argument(
         "mp4s_in_folder_name",
         type=str,
-        help="The folder name of the MP4 video sequence",
+        help="The folder name of the MP4 video sequence.",
         metavar="string"
     )
 
