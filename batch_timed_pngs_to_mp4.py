@@ -51,9 +51,9 @@ def _parse_arguments():
 
     _parser = _ArgumentParser(
         prog=_script_basename,
-        usage=f"python {_script_basename} <nested-pngs-folder-name>",
+        usage=f"python {_script_basename} [--help] <nested-pngs-folder-name>",
         description="Performs a batch of \"timed PNGs to MP4\" operations.",
-        epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU GPL3/3+ License."
+        epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License."
     )
 
     _parser.add_argument(
@@ -102,7 +102,7 @@ def _perform_batch_operations():
     print("begin Batch operations")
 
     for index, folder_name in enumerate(_pngs_folder_names):
-        print(f"begin Operation {index + 1}/{len(_pngs_folder_names)}")
+        print(f"begin Operation {index + 1} / {len(_pngs_folder_names)}")
         folder_basename = _os_path.basename(folder_name)
         _timed_pngs_to_mp4.data_folder_name = output_folder_name
         _timed_pngs_to_mp4.concat_file_name = _os_path.join(output_folder_name, f"{folder_basename}.txt")
@@ -110,7 +110,7 @@ def _perform_batch_operations():
         _timed_pngs_to_mp4.arguments_overridden = True
         _timed_pngs_to_mp4.pngs_folder_name = folder_name
         _timed_pngs_to_mp4.main()
-        print(f"end Operation {index + 1}/{len(_pngs_folder_names)}")
+        print(f"end Operation {index + 1} / {len(_pngs_folder_names)}")
 
     print("end Batch operations")
 

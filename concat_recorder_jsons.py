@@ -49,15 +49,15 @@ def _parse_arguments():
 
     _parser = _ArgumentParser(
         prog=_script_basename,
-        usage=f"python {_script_basename} <jsons-in-folder-name>",
+        usage=f"python {_script_basename} [--help] <jsons-in-folder-name>",
         description="Converts a sequence of ViSCA Recorder JSON files to a JSON file by concatenating them.",
-        epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU GPL3/3+ License."
+        epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License."
     )
 
     _parser.add_argument(
         "jsons_in_folder_name",
         type=str,
-        help="The folder name of the ViSCA Recorder JSON file sequence",
+        help="The folder name of the ViSCA Recorder JSON file sequence.",
         metavar="string"
     )
 
@@ -109,7 +109,7 @@ def _concat_jsons():
 
     for index, file_name in enumerate(_json_in_file_names):
         json_in_basename = _os_path.basename(file_name)
-        print(f"begin Concatenating {index + 1}/{len(_json_in_file_names)} {json_in_basename}")
+        print(f"begin Concatenating {index + 1} / {len(_json_in_file_names)} {json_in_basename}")
         record = {}
 
         with open(file_name, "r", encoding="utf-8") as json_in_file:
@@ -122,7 +122,7 @@ def _concat_jsons():
             concat_record["items"] += record_items
 
         concat_record["concatenated_files"].append(json_in_basename)
-        print(f"end Concatenating {index + 1}/{len(_json_in_file_names)} {json_in_basename}")
+        print(f"end Concatenating {index + 1} / {len(_json_in_file_names)} {json_in_basename}")
 
     with open(json_out_file_name, "w", encoding="utf-8") as json_out_file:
         _json.dump(concat_record, json_out_file, indent=4)

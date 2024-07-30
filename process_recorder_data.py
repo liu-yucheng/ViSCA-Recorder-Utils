@@ -79,9 +79,9 @@ def _parse_arguments():
 
     _parser = _ArgumentParser(
         prog=_script_basename,
-        usage=f"python {_script_basename} <recorder-folder-name>",
+        usage=f"python {_script_basename} [--help] <recorder-folder-name>",
         description="Processes a folder of ViSCA Recorder data.",
-        epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU GPL3/3+ License."
+        epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License."
     )
 
     _parser.add_argument(
