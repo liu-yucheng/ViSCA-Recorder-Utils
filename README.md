@@ -13,12 +13,12 @@
 
 # Usage
 
-## `timed_pngs_to_mp4.py`
+## `timed_images_to_mp4.py`
 
-- Converts a sequence of timed PNG images to an MP4 video.
-- PNG file name format: `%11d.png`.
-- PNG sequence time unit: microseconds (us).
-- `python timed_pngs_to_mp4.py [--help] <pngs-folder-name>`
+- Converts a sequence of timed images to an MP4 video.
+- Image file name format: `%11d.png` or `%11d.jpg`.
+- Image sequence time unit: microseconds (us).
+- `python timed_images_to_mp4.py [--help] <images-folder-name>`
 
 ## `blend_2_mp4s.py`
 
@@ -26,10 +26,10 @@
 - Uses the 2nd MP4 video as an overlay on the 1st MP4 video.
 - `python blend_2_mp4s.py [--help] <mp4-in1-file-name> <mp4-in2-file-name>`
 
-## `batch_timed_pngs_to_mp4.py`
+## `batch_timed_images_to_mp4.py`
 
-- Performs a batch of `timed_pngs_to_mp4.py` operations.
-- `python batch_timed_pngs_to_mp4.py [--help] <nested-pngs-folder-name>`
+- Performs a batch of `timed_images_to_mp4.py` operations.
+- `python batch_timed_images_to_mp4.py [--help] <nested-images-folder-name>`
 
 ## `concat_mp4s.py`
 
@@ -46,7 +46,7 @@
 ## `process_recorder_data.py`
 
 - Processes a folder of ViSCA Recorder data.
-- Step 1. Uses `batch_timed_pngs_to_mp4.py` to convert all captured frames (in the form of nested timed PNG folders) into video clips (in the form of MP4 files).
+- Step 1. Uses `batch_timed_images_to_mp4.py` to convert all captured frames (in the form of nested timed image folders) into video clips (in the form of MP4 files).
 - Step 2. Uses `concat_mp4s.py` to concatenate all converted video clips (the output of step 1) into 1 complete video file (in the form of an MP4 file).
 - Step 3. Uses `concat_recorder_jsons.py` to concatenate all recorded textual data files (in the form of JSON files) into 1 complete textual data file (in the form of a JSON file).
 - `python process_recorder_data.py [--help] <recorder-folder-name>`

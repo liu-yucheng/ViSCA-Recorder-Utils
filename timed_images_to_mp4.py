@@ -1,6 +1,6 @@
 """
-Timed PNGs to MP4.
-Converts a sequence of timed PNG images to an MP4 video.
+Timed images to MP4.
+Converts a sequence of timed images to an MP4 video.
 """
 
 # Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License.
@@ -22,7 +22,7 @@ data_folder_name = None
 concat_file_name = None
 mp4_file_name = None
 arguments_overridden = False
-pngs_folder_name = None
+images_folder_name = None
 
 
 def _create_context():
@@ -49,65 +49,66 @@ def _create_context():
 def _parse_arguments():
     global _parser
     global _arguments
-    global pngs_folder_name
+    global images_folder_name
 
     _parser = _ArgumentParser(
         prog=_script_basename,
-        usage=f"python {_script_basename} [--help] <pngs-folder-name>",
-        description="Converts a sequence of timed PNG images to an MP4 video.",
+        usage=f"python {_script_basename} [--help] <images-folder-name>",
+        description="Converts a sequence of timed images to an MP4 video.",
         epilog="Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License."
     )
 
     _parser.add_argument(
-        "pngs_folder_name",
+        "images_folder_name",
         type=str,
-        help="The folder name of the PNG timed image sequence.",
+        help="The folder name of the timed image sequence.",
         metavar="string"
     )
 
     if not arguments_overridden:
         _arguments = _parser.parse_args()
 
-        if pngs_folder_name is None:
-            pngs_folder_name = _arguments.pngs_folder_name
+        if images_folder_name is None:
+            images_folder_name = _arguments.images_folder_name
 
-        pngs_folder_name = _os_path.abspath(pngs_folder_name)
+        images_folder_name = _os_path.abspath(images_folder_name)
 
 
 def _generate_concat_demuxer():
-    pngs_isdir = _os_path.isdir(pngs_folder_name)
-    png_file_names = []
+    images_isdir = _os_path.isdir(images_folder_name)
+    image_file_names = []
 
-    if pngs_isdir:
-        png_file_names = _os.listdir(pngs_folder_name)
-        png_file_names.sort()
+    if images_isdir:
+        image_file_names = _os.listdir(images_folder_name)
+        image_file_names.sort()
 
-    for index, file_name in enumerate(png_file_names):
-        png_file_names[index] = _os_path.join(pngs_folder_name, file_name)
+    for index, file_name in enumerate(image_file_names):
+        image_file_names[index] = _os_path.join(images_folder_name, file_name)
 
-    new_png_file_names = []
+    new_image_file_names = []
 
-    for file_name in png_file_names:
-        png_isfile = _os_path.isfile(file_name)
-        png_basename = _os_path.basename(file_name)
-        _, png_ext = _os_path.splitext(file_name)
-        png_ext_matched = png_ext.lower() == ".png"
+    for file_name in image_file_names:
+        image_isfile = _os_path.isfile(file_name)
+        image_basename = _os_path.basename(file_name)
+        _, image_ext = _os_path.splitext(file_name)
+        image_ext_matched = image_ext.lower() == ".png"
+        image_ext_matched = image_ext_matched or image_ext.lower() == ".jpg"
 
-        if png_isfile and png_ext_matched:
-            new_png_file_names.append(file_name)
+        if image_isfile and image_ext_matched:
+            new_image_file_names.append(file_name)
         # end if
     # end if
 
-    png_file_names = new_png_file_names
+    image_file_names = new_image_file_names
     prev_time_us = 0
     curr_time_us = 0
     concat_lines = []
 
-    for file_name in png_file_names:
+    for file_name in image_file_names:
         concat_lines.append(f"file '{file_name}'")
-        png_basename = _os_path.basename(file_name)
-        png_no_ext, _ = _os_path.splitext(png_basename)
-        curr_time_us = int(png_no_ext)
+        image_basename = _os_path.basename(file_name)
+        image_no_ext, _ = _os_path.splitext(image_basename)
+        curr_time_us = int(image_no_ext)
         duration_us = curr_time_us - prev_time_us
         duration_seconds = duration_us / 1_000_000
         prev_time_us = curr_time_us
@@ -121,7 +122,7 @@ def _generate_concat_demuxer():
 # end def
 
 
-def _convert_pngs_to_mp4():
+def _convert_images_to_mp4():
     global _ffmpeg_command
 
     _ffmpeg_command =\
@@ -148,10 +149,10 @@ def main():
     _create_context()
     _parse_arguments()
     _generate_concat_demuxer()
-    _convert_pngs_to_mp4()
+    _convert_images_to_mp4()
 
     print(
-        f"{pngs_folder_name = :s}\n"
+        f"{images_folder_name = :s}\n"
         + f"{concat_file_name = :s}\n"
         + f"{mp4_file_name = :s}"
     )
