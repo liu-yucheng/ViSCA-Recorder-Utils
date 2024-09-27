@@ -10,7 +10,7 @@ Processes a folder of ViSCA Recorder data.
 from argparse import ArgumentParser as _ArgumentParser
 import os as _os
 import _datetime_utils
-import batch_timed_pngs_to_mp4 as _batch_timed_pngs_to_mp4
+import batch_timed_images_to_mp4 as _batch_timed_images_to_mp4
 import concat_mp4s as _concat_mp4s
 import concat_recorder_jsons as _concat_recorder_jsons
 
@@ -22,7 +22,7 @@ _arguments = None
 
 data_folder_name = None
 outputs_folder_name = None
-batch_timed_pngs_to_mp4_folder_name = None
+batch_timed_images_to_mp4_folder_name = None
 concat_mp4s_folder_name = None
 concat_recorder_jsons_folder_name = None
 arguments_overridden = False
@@ -32,7 +32,7 @@ recorder_folder_name = None
 def _create_context():
     global data_folder_name
     global outputs_folder_name
-    global batch_timed_pngs_to_mp4_folder_name
+    global batch_timed_images_to_mp4_folder_name
     global concat_mp4s_folder_name
     global concat_recorder_jsons_folder_name
 
@@ -50,13 +50,13 @@ def _create_context():
 
     _os.makedirs(outputs_folder_name, exist_ok=True)
 
-    if batch_timed_pngs_to_mp4_folder_name is None:
-        batch_timed_pngs_to_mp4_folder_name = _os_path.join(
+    if batch_timed_images_to_mp4_folder_name is None:
+        batch_timed_images_to_mp4_folder_name = _os_path.join(
             outputs_folder_name,
-            ".batch_timed_pngs_to_mp4_data"
+            ".batch_timed_images_to_mp4_data"
         )
 
-    _os.makedirs(batch_timed_pngs_to_mp4_folder_name)
+    _os.makedirs(batch_timed_images_to_mp4_folder_name)
 
     if concat_mp4s_folder_name is None:
         concat_mp4s_folder_name = _os_path.join(outputs_folder_name, ".concat_mp4s_data")
@@ -100,20 +100,20 @@ def _parse_arguments():
         recorder_folder_name = _os_path.abspath(recorder_folder_name)
 
 
-def _perform_batch_timed_pngs_to_mp4():
-    _batch_timed_pngs_to_mp4.data_folder_name = batch_timed_pngs_to_mp4_folder_name
-    _batch_timed_pngs_to_mp4.output_folder_name = batch_timed_pngs_to_mp4_folder_name
-    _batch_timed_pngs_to_mp4.arguments_overridden = True
-    _batch_timed_pngs_to_mp4.nested_pngs_folder_name = recorder_folder_name
-    _batch_timed_pngs_to_mp4.main()
+def _perform_batch_timed_images_to_mp4():
+    _batch_timed_images_to_mp4.data_folder_name = batch_timed_images_to_mp4_folder_name
+    _batch_timed_images_to_mp4.output_folder_name = batch_timed_images_to_mp4_folder_name
+    _batch_timed_images_to_mp4.arguments_overridden = True
+    _batch_timed_images_to_mp4.nested_images_folder_name = recorder_folder_name
+    _batch_timed_images_to_mp4.main()
 
 
 def _perform_concat_mp4s():
-    mp4_in_file_names = _os.listdir(batch_timed_pngs_to_mp4_folder_name)
+    mp4_in_file_names = _os.listdir(batch_timed_images_to_mp4_folder_name)
     mp4_in_file_names.sort()
 
     for index, file_name in enumerate(mp4_in_file_names):
-        mp4_in_file_names[index] = _os_path.join(batch_timed_pngs_to_mp4_folder_name, file_name)
+        mp4_in_file_names[index] = _os_path.join(batch_timed_images_to_mp4_folder_name, file_name)
 
     new_mp4_in_file_names = []
 
@@ -134,7 +134,7 @@ def _perform_concat_mp4s():
     _concat_mp4s.concat_file_name = _os_path.join(concat_mp4s_folder_name, f"concat-{mp4_in1_noext}.txt")
     _concat_mp4s.mp4_out_file_name = _os_path.join(outputs_folder_name, f"concat-{mp4_in1_noext}.mp4")
     _concat_mp4s.arguments_overridden = True
-    _concat_mp4s.mp4s_in_folder_name = batch_timed_pngs_to_mp4_folder_name
+    _concat_mp4s.mp4s_in_folder_name = batch_timed_images_to_mp4_folder_name
     _concat_mp4s.main()
 
 
@@ -174,7 +174,7 @@ def main():
     print(f"begin {_script_basename}")
     _create_context()
     _parse_arguments()
-    _perform_batch_timed_pngs_to_mp4()
+    _perform_batch_timed_images_to_mp4()
     _perform_concat_mp4s()
     _perform_concat_recorder_jsons()
 
