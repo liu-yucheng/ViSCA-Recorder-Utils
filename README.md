@@ -16,8 +16,8 @@
 ## `timed_images_to_mp4.py`
 
 - Converts a sequence of timed images to an MP4 video.
-- Image file name format: `%11d.png` or `%11d.jpg`.
-- Image sequence time unit: microseconds (us).
+- Image file name format: `time_%.6f_sickness_%.1f.png` or `time_%.6f_sickness_%.1f.jpg`.
+- Image sequence time unit: seconds.
 - `python timed_images_to_mp4.py [--help] <images-folder-name>`
 
 ## `blend_2_mp4s.py`

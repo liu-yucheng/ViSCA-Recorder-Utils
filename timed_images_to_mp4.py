@@ -9,6 +9,7 @@ Converts a sequence of timed images to an MP4 video.
 
 from argparse import ArgumentParser as _ArgumentParser
 import os as _os
+import re as _re
 import _datetime_utils
 
 
@@ -100,19 +101,27 @@ def _generate_concat_demuxer():
     # end if
 
     image_file_names = new_image_file_names
-    prev_time_us = 0
-    curr_time_us = 0
+    prev_time = float(0)
+    curr_time = float(0)
     concat_lines = []
 
-    for file_name in image_file_names:
-        concat_lines.append(f"file '{file_name}'")
+    for index, file_name in enumerate(image_file_names):
         image_basename = _os_path.basename(file_name)
         image_no_ext, _ = _os_path.splitext(image_basename)
-        curr_time_us = int(image_no_ext)
-        duration_us = curr_time_us - prev_time_us
-        duration_seconds = duration_us / 1_000_000
-        prev_time_us = curr_time_us
-        concat_lines.append(f"duration {duration_seconds:6f}")
+        split_groups = _re.split("_+", image_no_ext)
+
+        if \
+            len(split_groups) >= 4 \
+            and split_groups[0] == "time" \
+            and split_groups[2] == "sickness" \
+        :
+            concat_lines.append(f"file '{file_name}'")
+            curr_time = float(split_groups[1])
+            duration = curr_time - prev_time
+            concat_lines.append(f"duration {duration:6f}")
+            prev_time = curr_time
+        # end if
+    # end for
 
     concat_str = "\n".join(concat_lines)
 
@@ -131,7 +140,7 @@ def _convert_images_to_mp4():
         + f"  -safe 0"\
         + f"  -i \"{concat_file_name}\""\
         + f"  -filter:v fps=30"\
-        + f"  -pix_fmt yuv420p"\
+        + f"  -pix_fmt yuvj420p"\
         + f"  -movflags +faststart"\
         + f"  -c:v h264"\
         + f"  -profile:v high"\
