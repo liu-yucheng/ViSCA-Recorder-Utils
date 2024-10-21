@@ -121,7 +121,7 @@ def _concat_mp4s():
         + f"  -safe 0"\
         + f"  -i \"{concat_file_name}\""\
         + f"  -filter:v fps=30"\
-        + f"  -pix_fmt yuv420p"\
+        + f"  -pix_fmt yuvj420p"\
         + f"  -movflags +faststart"\
         + f"  -c:v h264"\
         + f"  -profile:v high"\
