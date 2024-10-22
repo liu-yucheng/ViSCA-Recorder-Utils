@@ -1,3 +1,4 @@
 numpy
 python-ffmpeg
 python-dateutil
+varname
