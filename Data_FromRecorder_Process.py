@@ -135,7 +135,9 @@ def _Batch_Video_FromRecorderImages_Convert_Perform():
 
 
 def _Video_Concat_Perform():
-    Video_Input_Names = _os.listdir(Folder_BatchVideoFromRecorderImagesConvert_Name)
+    Video_Input_Names = \
+        _os.listdir(Folder_BatchVideoFromRecorderImagesConvert_Name)
+
     Video_Input_Names.sort()
 
     for Index, File_Name in enumerate(Video_Input_Names):

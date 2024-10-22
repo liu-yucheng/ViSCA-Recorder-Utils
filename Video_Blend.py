@@ -58,7 +58,8 @@ def _Arguments_Parse():
         prog=_Script_basename,
 
         usage=\
-            f"python {_Script_basename} [--help] <{_nameof(Video_Input1_Name)}>"
+            f"python {_Script_basename} [--help]"
+            + f" <{_nameof(Video_Input1_Name)}>"
             + f" <{_nameof(Video_Input2_Name)}>",
 
         description=\
