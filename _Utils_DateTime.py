@@ -13,13 +13,24 @@ _datetime_ = _datetime.datetime
 _timedelta = _datetime.timedelta
 
 
-def Mod_Custom(numerator, denominator, signed):
-    result = numerator % denominator
+def Mod_Custom(Numerator, Denominator, Signed):
+    """
+    Performs a custom mod operation.
 
-    if signed and result > 0 and numerator < 0:
-        result -= denominator
+    Args:
+        Numerator: A numerator.
+        Denominator: A denominator.
+        Signed: Whether the operation is signed.
 
-    return result
+    Returns:
+        Result: The result.
+    """
+    Result = Numerator % Denominator
+
+    if Signed and Result > 0 and Numerator < 0:
+        Result -= Denominator
+
+    return Result
 
 
 class TimeDelta_Custom:
@@ -40,7 +51,7 @@ class TimeDelta_Custom:
         Initializes an object.
 
         Args:
-            time_delta (_timedelta): a time delta
+            TimeDelta (_timedelta): a time delta
         """
         self._TimeDelta = TimeDelta
         self._US_InSecond = TimeDelta.microseconds
@@ -48,17 +59,17 @@ class TimeDelta_Custom:
         self._Day_Total = TimeDelta.days
 
         if TimeDelta.days < 0:
-            self._Second_InDay -=\
-                1\
-                * self.Unit_HoursPerDay\
-                * self.Unit_MinutesPerHour\
+            self._Second_InDay -= \
+                1 \
+                * self.Unit_HoursPerDay \
+                * self.Unit_MinutesPerHour \
                 * self.Unit_SecondsPerMinute
 
             self._Day_Total += 1
 
 
         self._MS_InSecond = int(self._US_InSecond / self.Unit_USPerMS)
-        
+
         self._Minute_InDay = \
             int(self._Second_InDay / self.Unit_SecondsPerMinute)
 
@@ -72,22 +83,22 @@ class TimeDelta_Custom:
 
         self.US_InSecond = self._US_InSecond
         self.MS_InSecond = self._MS_InSecond
-        
+
         self.Second_InMinute = \
             Mod_Custom(self._Second_InDay, self.Unit_SecondsPerMinute, True)
-        
+
         self.Minute_InHour = \
             Mod_Custom(self._Minute_InDay, self.Unit_MinutesPerHour, True)
-        
+
         self.Hour_InDay = \
             Mod_Custom(self._Hour_InDay, self.Unit_HoursPerDay, True)
-        
+
         self.Day_InWeek = \
             Mod_Custom(self._Day_Total, self.Unit_DaysPerWeek, True)
-        
+
         self.Week_InYear = \
             Mod_Custom(self._Week_Total, self.Unit_WeeksPerYear, True)
-        
+
         self.Year_Total = self._Year_Total
     # end def
 
@@ -101,14 +112,14 @@ def DateTime_Custom_FindStringFor(
 
     Args:
         DateTime (_datetime_): a date time
-        DateTime (_timedelta): an UTC offset
+        UTCOffset (_timedelta): an UTC offset
 
     Returns:
         Result (str): A custom date time string
     """
     UTCOffset_Custom = TimeDelta_Custom(UTCOffset)
 
-    Result =\
+    Result = \
         f"{DateTime.year:04d}{DateTime.month:02d}{DateTime.day:02d}"\
         + f"-{DateTime.hour:02d}{DateTime.minute:02d}{DateTime.second:02d}"\
         + f"-{DateTime.microsecond:06d}"\
