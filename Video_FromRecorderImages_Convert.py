@@ -97,21 +97,21 @@ def _ConcatDemuxer_Generate():
         Image_Names = _os.listdir(Folder_Images_Name)
         Image_Names.sort()
 
-    for Index, File_Name in enumerate(Image_Names):
-        Image_Names[Index] = _os_path.join(Folder_Images_Name, File_Name)
+    for Index, Image_Name in enumerate(Image_Names):
+        Image_Names[Index] = _os_path.join(Folder_Images_Name, Image_Name)
 
     Image_Names_New = []
 
-    for File_Name in Image_Names:
-        Image_isfile = _os_path.isfile(File_Name)
-        Image_basename = _os_path.basename(File_Name)
-        _, Image_Ext = _os_path.splitext(File_Name)
+    for Image_Name in Image_Names:
+        Image_isfile = _os_path.isfile(Image_Name)
+        Image_basename = _os_path.basename(Image_Name)
+        _, Image_Ext = _os_path.splitext(Image_Name)
 
         Image_Ext_Matched = \
             Image_Ext.lower() == ".png" or Image_Ext.lower() == ".jpg"
 
         if Image_isfile and Image_Ext_Matched:
-            Image_Names_New.append(File_Name)
+            Image_Names_New.append(Image_Name)
         # end if
     # end if
 
@@ -120,8 +120,8 @@ def _ConcatDemuxer_Generate():
     Time_Current_Seconds = float(0)
     Concat_Lines = []
 
-    for Index, File_Name in enumerate(Image_Names):
-        Image_basename = _os_path.basename(File_Name)
+    for Index, Image_Name in enumerate(Image_Names):
+        Image_basename = _os_path.basename(Image_Name)
         Image_NoExt, _ = _os_path.splitext(Image_basename)
         Image_basename_Split = _re.split("_+", Image_NoExt)
 
@@ -131,7 +131,7 @@ def _ConcatDemuxer_Generate():
             and Image_basename_Split[2] == "sickness" \
 
         if Image_basename_Matched:
-            Concat_Lines.append(f"file '{File_Name}'")
+            Concat_Lines.append(f"file '{Image_Name}'")
             Time_Current_Seconds = float(Image_basename_Split[1])
             Duration_Seconds = Time_Current_Seconds - Time_Previous_Seconds
             Concat_Lines.append(f"duration {Duration_Seconds:6f}")
