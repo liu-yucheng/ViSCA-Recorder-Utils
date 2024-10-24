@@ -120,7 +120,7 @@ def _JSONs_Concat():
 
     Record_Concat = {
         "items": [],
-        "concatenated_files": []
+        "files__concatenated": []
     }
 
     for Index, File_Name in enumerate(_JSON_Input_Names):
@@ -142,7 +142,7 @@ def _JSONs_Concat():
             Record_Items = list(Record_Items)
             Record_Concat["items"] += Record_Items
 
-        Record_Concat["concatenated_files"].append(JSON_Input_basename)
+        Record_Concat["files__concatenated"].append(JSON_Input_basename)
 
         print(
             f"end Concatenating {Index + 1} / {len(_JSON_Input_Names)}"

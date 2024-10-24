@@ -1,5 +1,6 @@
 """
-Performs a batch of "Video_FromRecorderImages_Convert.py" operations.
+Performs a batch of "Video_FromRecorderImages_WithSickness_Convert.py"
+  operations.
 """
 
 # Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License.
@@ -9,7 +10,7 @@ Performs a batch of "Video_FromRecorderImages_Convert.py" operations.
 from argparse import ArgumentParser as _ArgumentParser
 import os as _os
 import varname as _varname
-import Video_FromRecorderImages_Convert as _Video_FromRecorderImages_WithSickness_Convert
+import Video_FromRecorderImages_WithSickness_Convert as _Video_FromRecorderImages_WithSickness_Convert
 import _Utils_DateTime
 
 
@@ -34,17 +35,19 @@ def _Context_Create():
     if Folder_Data_Name is None:
         Folder_Data_Name = _os_path.dirname(__file__)
 
-        Folder_Data_Name = \
-            _os_path.join(Folder_Data_Name, f".{Script_NoExt}_Data")
+        Folder_Data_Name \
+        = _os_path.join(Folder_Data_Name, f".{Script_NoExt}_Data")
         # end statement
+    # end if
 
     _os.makedirs(Folder_Data_Name, exist_ok=True)
     Timestamp = _Utils_DateTime.DateTime_Custom_FindStringFor_Now()
 
     if Folder_Output_Name is None:
-        Folder_Output_Name = \
-            _os_path.join(Folder_Data_Name, f"Output_{Timestamp}")
+        Folder_Output_Name \
+        = _os_path.join(Folder_Data_Name, f"Output_{Timestamp}")
         # end statement
+    # end if
 
     _os.makedirs(Folder_Output_Name, exist_ok=True)
 
@@ -57,16 +60,17 @@ def _Arguments_Parse():
     _Parser = _ArgumentParser(
         prog=_Script_basename,
 
-        usage=\
-            f"python {_Script_basename} [--help]"
-            + f" <{_nameof(Folder_NestedImages_Name)}>",
+        usage\
+        =f"python {_Script_basename} [--help]"
+        + f" <{_nameof(Folder_NestedImages_Name)}>",
 
-        description=\
-            "Performs a batch of \"Video_FromRecorderImages_Convert.py\""
-            + " operations.",
+        description\
+        ="Performs a batch of"
+        + " \"Video_FromRecorderImages_WithSickness_Convert.py\""
+        + " operations.",
 
-        epilog=\
-            "Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License."
+        epilog\
+        ="Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License."
     )
 
     _Parser.add_argument(
@@ -96,8 +100,8 @@ def _Folders_Image_Probe():
         _Folder_Images_Names.sort()
 
     for Index, Folder_Name in enumerate(_Folder_Images_Names):
-        _Folder_Images_Names[Index] = \
-            _os_path.join(Folder_NestedImages_Name, Folder_Name)
+        _Folder_Images_Names[Index] \
+        = _os_path.join(Folder_NestedImages_Name, Folder_Name)
 
     Names_Folder_Images_New = []
 
@@ -118,16 +122,34 @@ def _Batch_Operations_Perform():
     for Index, Folder_Name in enumerate(_Folder_Images_Names):
         print(f"begin Operation {Index + 1} / {len(_Folder_Images_Names)}")
         Folder_basename = _os_path.basename(Folder_Name)
-        _Video_FromRecorderImages_WithSickness_Convert.Folder_Data_Name = Folder_Output_Name
 
-        _Video_FromRecorderImages_WithSickness_Convert.File_Concat_Name = \
-            _os_path.join(Folder_Output_Name, f"{Folder_basename}.txt")
+        _Video_FromRecorderImages_WithSickness_Convert\
+            .Clips_WithSickness_TimeBefore_Seconds \
+        = 0.5
 
-        _Video_FromRecorderImages_WithSickness_Convert.Video_Name = \
-            _os_path.join(Folder_Output_Name, f"{Folder_basename}.mp4")
+        _Video_FromRecorderImages_WithSickness_Convert\
+            .Clips_WithSickness_TimeAfter_Seconds \
+        = 0.5
 
-        _Video_FromRecorderImages_WithSickness_Convert.Arguments_Overridden = True
-        _Video_FromRecorderImages_WithSickness_Convert.Folder_Images_Name = Folder_Name
+        _Video_FromRecorderImages_WithSickness_Convert\
+            .Clips_WithSickness_TimeBetween_Max_Seconds \
+        = 3
+
+        _Video_FromRecorderImages_WithSickness_Convert.Folder_Data_Name \
+        = Folder_Output_Name
+
+        _Video_FromRecorderImages_WithSickness_Convert.File_Concat_Name \
+        = _os_path.join(Folder_Output_Name, f"{Folder_basename}.txt")
+
+        _Video_FromRecorderImages_WithSickness_Convert.Video_Name \
+        = _os_path.join(Folder_Output_Name, f"{Folder_basename}.mp4")
+
+        _Video_FromRecorderImages_WithSickness_Convert.Arguments_Overridden \
+        = True
+
+        _Video_FromRecorderImages_WithSickness_Convert.Folder_Images_Name \
+        = Folder_Name
+
         _Video_FromRecorderImages_WithSickness_Convert.Main()
         print(f"end Operation {Index + 1} / {len(_Folder_Images_Names)}")
 
