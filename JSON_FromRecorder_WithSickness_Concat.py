@@ -135,8 +135,13 @@ def _JSONs_Concat():
     print("begin _JSONs_Concat")
 
     Record_Concat = {
-        "items": [],
-        "files__concatenated": []
+        "visca_recorder_utils": {
+            "files__concatenated": [],
+            "filter__with_sickness": {},
+            "sickness__statistics": {}
+        },
+
+        "items": []
     }
 
     for Index, File_Name in enumerate(_JSON_Input_Names):
@@ -158,7 +163,8 @@ def _JSONs_Concat():
             Record_Items = list(Record_Items)
             Record_Concat["items"] += Record_Items
 
-        Record_Concat["files__concatenated"].append(JSON_Input_basename)
+        Record_Concat["visca_recorder_utils"]["files__concatenated"]\
+            .append(JSON_Input_basename)
 
         print(
             f"end Concatenating {Index + 1} / {len(_JSON_Input_Names)}"
@@ -170,18 +176,34 @@ def _JSONs_Concat():
     Indexes_BeforeSickness_Dict = {}
     Indexes_AfterSickness_Dict = {}
     Items = list(Record_Concat["items"])
+    Time_WithSickness_Seconds = float(0)
+    Time_Total_Seconds = float(0)
+    Time_Item_Previous = float(0)
+    Time_Item_Current = float(0)
 
     # Select items with sickness.
     for Index, Item in enumerate(Items):
         if "sickness" in Item and "reported" in Item["sickness"]:
             Sickness = float(Item["sickness"]["reported"])
         else:
-            Sickness = 0
+            Sickness = float(0)
+
+        if "timestamp" in Item and "game_time_seconds" in Item["timestamp"]:
+            Time_Item_Current = float(Item["timestamp"]["game_time_seconds"])
+        else:
+            Time_Item_Current = Time_Item_Previous
+
+        Time_BetweenItems_Duration = Time_Item_Current - Time_Item_Previous
 
         if Sickness >= 0.5:
             Indexes_WithSickness_Dict[Index] = None
+            Time_WithSickness_Seconds += Time_BetweenItems_Duration
+
+        Time_Total_Seconds += Time_BetweenItems_Duration
+        Time_Item_Previous = Time_Item_Current
     # end for
 
+    TimeProportion_WithSickness = Time_WithSickness_Seconds / Time_Total_Seconds
     Indexes_WithSickness = list(Indexes_WithSickness_Dict.keys())
     Indexes_WithSickness.sort()
 
@@ -265,12 +287,18 @@ def _JSONs_Concat():
 
     Record_Concat["items"] = Items_WithSickness
 
-    Record_Concat["filter__with_sickness"] = {
+    Record_Concat["visca_recorder_utils"]["filter__with_sickness"] = {
         "items__with_sickness__time_before"\
         : float(Items_WithSickness_TimeBefore_Seconds),
 
         "items__with_sickness__time_after"\
         : float(Items_WithSickness_TimeAfter_Seconds),
+    }
+
+    Record_Concat["visca_recorder_utils"]["sickness__statistics"] = {
+        "time__with_sickness__seconds": Time_WithSickness_Seconds,
+        "time__total__seconds": Time_Total_Seconds,
+        "time_proportion__with_sickness": TimeProportion_WithSickness
     }
 
     print("end Filtering (with sickness)")
