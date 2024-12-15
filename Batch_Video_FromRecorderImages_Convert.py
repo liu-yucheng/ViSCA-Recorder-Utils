@@ -3,7 +3,7 @@ Performs a batch of "Video_FromRecorderImages_Convert.py" operations.
 """
 
 # Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License.
-# GNU AGPL 3.0 License available at: https://www.gnu.org/licenses/agpl-3.0.txt
+# GNU AGPL 3.0 License: https://www.gnu.org/licenses/agpl-3.0.txt .
 
 
 from argparse import ArgumentParser as _ArgumentParser
