@@ -294,6 +294,9 @@ def _JSONs_Concat():
 
         "items__with_sickness__time_after"\
         : float(Items_WithSickness_TimeAfter_Seconds),
+
+        "items__with_sickness__threshold"\
+        : float(Items_WithSickness_SicknessThreshold)
     }
 
     Record_Concat["visca_recorder_utils"]["sickness__statistics"] = {
