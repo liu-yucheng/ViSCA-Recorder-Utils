@@ -25,6 +25,7 @@ Script_NoExt, _ = _os_path.splitext(_Script_basename)
 Clips_WithSickness_TimeBefore_Seconds = None
 Clips_WithSickness_TimeAfter_Seconds = None
 Clips_WithSickness_TimeBetween_Max_Seconds = None
+Clips_WithSickness_Sickness_SicknessThreshold = float(0.75)
 Folder_Data_Name = None
 File_Concat_Name = None
 Video_Name = None
@@ -167,7 +168,7 @@ def _ConcatDemuxer_Generate():
         Time_ = Image_NameToTime[Image_Name]
         Sickness = Image_NameToSickness[Image_Name]
 
-        if Sickness >= 0.5:
+        if Sickness >= Clips_WithSickness_Sickness_SicknessThreshold:
             if Image_Name not in Image_WithSickness_Names_Dict:
                 Image_WithSickness_Names_Dict[Image_Name] = None
 
