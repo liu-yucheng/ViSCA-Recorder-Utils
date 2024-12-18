@@ -27,6 +27,7 @@ _JSON_Input_Names = None
 Script_NoExt, _ = _os_path.splitext(_Script_basename)
 Items_WithSickness_TimeBefore_Seconds = None
 Items_WithSickness_TimeAfter_Seconds = None
+Items_WithSickness_SicknessThreshold = float(0.75)
 Folder_Data_Name = None
 JSON_Output_Name = None
 Arguments_Overridden = False
@@ -195,7 +196,7 @@ def _JSONs_Concat():
 
         Time_BetweenItems_Duration = Time_Item_Current - Time_Item_Previous
 
-        if Sickness >= 0.5:
+        if Sickness >= Items_WithSickness_SicknessThreshold:
             Indexes_WithSickness_Dict[Index] = None
             Time_WithSickness_Seconds += Time_BetweenItems_Duration
 
