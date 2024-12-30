@@ -2,3 +2,4 @@ numpy
 python-ffmpeg
 python-dateutil
 varname
+pandas
