@@ -2,7 +2,7 @@
 (Private) no operation utilities.
 """
 
-# Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License.
+# Copyright (C) 2024-2025 Yucheng Liu. Under the GNU AGPL 3.0 License.
 # GNU AGPL 3.0 License: https://www.gnu.org/licenses/agpl-3.0.txt .
 
 

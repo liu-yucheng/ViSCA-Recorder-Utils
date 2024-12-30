@@ -2,7 +2,7 @@
 Processes a data folder (from ViSCA Recorder).
 """
 
-# Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License.
+# Copyright (C) 2024-2025 Yucheng Liu. Under the GNU AGPL 3.0 License.
 # GNU AGPL 3.0 License: https://www.gnu.org/licenses/agpl-3.0.txt .
 
 
@@ -139,7 +139,7 @@ def _Arguments_Parse():
         description="Processes a data folder (from ViSCA Recorder).",
 
         epilog=\
-            "Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License."
+            "Copyright (C) 2024-2025 Yucheng Liu. Under the GNU AGPL 3.0 License."
     )
 
     _Parser.add_argument(
@@ -254,12 +254,18 @@ def _JSON_FromRecorder_Concat_Perform():
     _JSON_FromRecorder_Concat.Folder_Data_Name \
     = Folder_JSON_FromRecorder_Concat_Name
 
-    _JSON_FromRecorder_Concat.JSON_Output_Name \
+    _JSON_FromRecorder_Concat.Output_JSON_Name \
     = _os_path.join(Folder_Outputs_Name, f"Concat_{JSON_Input1_NoExt}.json")
+
+    _JSON_FromRecorder_Concat.Output_JSON_Flattened_Name \
+    = _os_path.join(
+        Folder_Outputs_Name,
+        f"Concat_Flattened_{JSON_Input1_NoExt}.json"
+    )
 
     _JSON_FromRecorder_Concat.Arguments_Overridden = True
 
-    _JSON_FromRecorder_Concat.Folder_JSONs_Input_Name \
+    _JSON_FromRecorder_Concat.Input_Folder_JSONs_Name \
     = Folder_Data_FromRecorder_Name
 
     _JSON_FromRecorder_Concat.Main()
@@ -376,16 +382,21 @@ def _JSON_FromRecorder_WithSickness_Concat_Perform():
     _JSON_FromRecorder_WithSickness_Concat.Folder_Data_Name \
     = Folder_JSON_FromRecorder_Concat_Name
 
-    _JSON_FromRecorder_WithSickness_Concat.JSON_Output_Name \
+    _JSON_FromRecorder_WithSickness_Concat.Output_JSON_Name \
     = _os_path.join(
         Folder_Outputs_Name,
         f"Concat_WithSickness_{JSON_Input1_NoExt}.json"
     )
-    # end statement
+
+    _JSON_FromRecorder_WithSickness_Concat.Output_JSON_Flattened_Name \
+    = _os_path.join(
+        Folder_Outputs_Name,
+        f"Concat_WithSickness_Flattened_{JSON_Input1_NoExt}.json"
+    )
 
     _JSON_FromRecorder_WithSickness_Concat.Arguments_Overridden = True
 
-    _JSON_FromRecorder_WithSickness_Concat.Folder_JSONs_Input_Name \
+    _JSON_FromRecorder_WithSickness_Concat.Input_Folder_JSONs_Name \
     = Folder_Data_FromRecorder_Name
 
     _JSON_FromRecorder_WithSickness_Concat.Main()
