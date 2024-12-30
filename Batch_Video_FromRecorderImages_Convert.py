@@ -2,7 +2,7 @@
 Performs a batch of "Video_FromRecorderImages_Convert.py" operations.
 """
 
-# Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License.
+# Copyright (C) 2024-2025 Yucheng Liu. Under the GNU AGPL 3.0 License.
 # GNU AGPL 3.0 License: https://www.gnu.org/licenses/agpl-3.0.txt .
 
 
@@ -66,7 +66,7 @@ def _Arguments_Parse():
             + " operations.",
 
         epilog=\
-            "Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License."
+            "Copyright (C) 2024-2025 Yucheng Liu. Under the GNU AGPL 3.0 License."
     )
 
     _Parser.add_argument(

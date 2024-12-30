@@ -59,13 +59,15 @@
 
 - Concatenates a sequence of JSON (from ViSCA Recorder) files.
 - Concatenates JSONs in ascending alphanumerical order.
-- `python JSON_FromRecorder_Concat.py [--help] <Folder_JSONs_Input_Name>`
+- Creates a copy of concatenated JSONs in which the `items` get flattened into `items__flattened`.
+- `python JSON_FromRecorder_Concat.py [--help] <Input_Folder_JSONs_Name>`
 
 ## [`JSON_FromRecorder_WithSickness_Concat.py`](./JSON_FromRecorder_WithSickness_Concat.py)
 
 - Concatenates a sequence of JSON (from ViSCA Recorder) files (includes items with sickness only).
 - Concatenates JSONs in ascending alphanumerical order.
-- `python JSON_FromRecorder_WithSickness_Concat.py [--help] <Folder_JSONs_Input_Name>`
+- Creates a copy of concatenated JSONs in which the `items` get flattened into `items__flattened`.
+- `python JSON_FromRecorder_WithSickness_Concat.py [--help] <Input_Folder_JSONs_Name>`
 
 ## [`Video_Concat.py`](./Video_Concat.py)
 
@@ -82,6 +84,6 @@
 # Copyright
 
 ```
-Copyright (C) 2024 Yucheng Liu. Under the GNU AGPL 3.0 License.
+Copyright (C) 2024-2025 Yucheng Liu. Under the GNU AGPL 3.0 License.
 GNU AGPL 3.0 License: https://www.gnu.org/licenses/agpl-3.0.txt .
 ```
