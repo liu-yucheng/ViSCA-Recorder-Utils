@@ -57,8 +57,8 @@ def _Context_Create():
     Timestamp = _Utils_DateTime.DateTime_Custom_FindStringFor_Now()
 
     if Folder_Outputs_Name is None:
-        Folder_Outputs_Name = \
-            _os_path.join(Folder_Data_Name, f"Outputs_{Timestamp}")
+        Folder_Outputs_Name \
+        = _os_path.join(Folder_Data_Name, f"Outputs_{Timestamp}")
 
     _os.makedirs(Folder_Outputs_Name, exist_ok=True)
 
@@ -132,14 +132,14 @@ def _Arguments_Parse():
     _Parser = _ArgumentParser(
         prog=_Script_basename,
 
-        usage=\
-            f"python {_Script_basename} [--help]"\
+        usage\
+        =f"python {_Script_basename} [--help]"\
             + f" <{_nameof(Folder_Data_FromRecorder_Name)}>",
 
         description="Processes a data folder (from ViSCA Recorder).",
 
-        epilog=\
-            "Copyright (C) 2024-2025 Yucheng Liu. Under the GNU AGPL 3.0 License."
+        epilog\
+        ="Copyright (C) 2024-2025 Yucheng Liu. Under the GNU AGPL 3.0 License."
     )
 
     _Parser.add_argument(
@@ -153,33 +153,31 @@ def _Arguments_Parse():
         _Arguments = _Parser.parse_args()
 
         if Folder_Data_FromRecorder_Name is None:
-            Folder_Data_FromRecorder_Name = \
-                _Arguments.Folder_Data_FromRecorder_Name
-            # end statement
+            Folder_Data_FromRecorder_Name \
+            = _Arguments.Folder_Data_FromRecorder_Name
 
-        Folder_Data_FromRecorder_Name = \
-            _os_path.abspath(Folder_Data_FromRecorder_Name)
-        # end statement
+        Folder_Data_FromRecorder_Name \
+        = _os_path.abspath(Folder_Data_FromRecorder_Name)
 
 
 def _Batch_Video_FromRecorderImages_Convert_Perform():
-    _Batch_Video_FromRecorderImages_Convert.Folder_Data_Name = \
-        Folder_Batch_Video_FromRecorderImages_Convert_Name
+    _Batch_Video_FromRecorderImages_Convert.Folder_Data_Name \
+    = Folder_Batch_Video_FromRecorderImages_Convert_Name
 
-    _Batch_Video_FromRecorderImages_Convert.Folder_Output_Name = \
-        Folder_Batch_Video_FromRecorderImages_Convert_Name
+    _Batch_Video_FromRecorderImages_Convert.Folder_Output_Name \
+    = Folder_Batch_Video_FromRecorderImages_Convert_Name
 
     _Batch_Video_FromRecorderImages_Convert.Arguments_Overridden = True
 
-    _Batch_Video_FromRecorderImages_Convert.Folder_NestedImages_Name = \
-        Folder_Data_FromRecorder_Name
+    _Batch_Video_FromRecorderImages_Convert.Folder_NestedImages_Name \
+    = Folder_Data_FromRecorder_Name
 
     _Batch_Video_FromRecorderImages_Convert.Main()
 
 
 def _Video_Concat_Perform():
-    Video_Input_Names = \
-        _os.listdir(Folder_Batch_Video_FromRecorderImages_Convert_Name)
+    Video_Input_Names \
+    = _os.listdir(Folder_Batch_Video_FromRecorderImages_Convert_Name)
 
     Video_Input_Names.sort()
 
@@ -281,8 +279,7 @@ def _Batch_Video_FromRecorderImages_WithSickness_Convert_Perform():
     _Batch_Video_FromRecorderImages_WithSickness_Convert.Arguments_Overridden \
     = True
 
-    _Batch_Video_FromRecorderImages_WithSickness_Convert\
-        .Folder_NestedImages_Name \
+    _Batch_Video_FromRecorderImages_WithSickness_Convert.Folder_NestedImages_Name \
     = Folder_Data_FromRecorder_Name
 
     _Batch_Video_FromRecorderImages_WithSickness_Convert.Main()
@@ -319,7 +316,12 @@ def _Video_Concat_WithSickness_Perform():
     # end for
 
     Video_Input_Names = Video_Input_Names_New
-    Video_Input1_basename = _os_path.basename(Video_Input_Names[0])
+
+    if len(Video_Input_Names) >= 1:
+        Video_Input1_basename = _os_path.basename(Video_Input_Names[0])
+    else:
+        Video_Input1_basename = "empty-video.mp4"
+
     Video_Input1_NoExt, _ = _os_path.splitext(Video_Input1_basename)
     _Video_Concat.Folder_Data_Name = Folder_Video_Concat_WithSickness_Name
 
@@ -352,7 +354,6 @@ def _JSON_FromRecorder_WithSickness_Concat_Perform():
     for Index, File_Name in enumerate(JSON_Input_Names):
         JSON_Input_Names[Index] \
         = _os_path.join(Folder_Data_FromRecorder_Name, File_Name)
-        # end statement
     # end for
 
     JSON_Input_Names_New = []
@@ -371,12 +372,10 @@ def _JSON_FromRecorder_WithSickness_Concat_Perform():
     JSON_Input1_basename = _os_path.basename(JSON_Input_Names[0])
     JSON_Input1_NoExt, _ = _os_path.splitext(JSON_Input1_basename)
 
-    _JSON_FromRecorder_WithSickness_Concat\
-        .Items_WithSickness_TimeBefore_Seconds \
+    _JSON_FromRecorder_WithSickness_Concat.Items_WithSickness_TimeBefore_Seconds \
     = 0.5
 
-    _JSON_FromRecorder_WithSickness_Concat\
-        .Items_WithSickness_TimeAfter_Seconds \
+    _JSON_FromRecorder_WithSickness_Concat.Items_WithSickness_TimeAfter_Seconds \
     = 0.5
 
     _JSON_FromRecorder_WithSickness_Concat.Folder_Data_Name \
@@ -402,7 +401,7 @@ def _JSON_FromRecorder_WithSickness_Concat_Perform():
     _JSON_FromRecorder_WithSickness_Concat.Main()
 
 
-def main():
+def Main():
     """
     Starts the main procedure.
     """
@@ -425,4 +424,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    Main()
