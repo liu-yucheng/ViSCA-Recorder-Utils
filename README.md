@@ -13,6 +13,13 @@
 
 # Usage
 
+## [`Batch_Data_FromRecorder_Process.py`](./Batch_Data_FromRecorder_Process.py)
+
+- Performs a batch of `Data_FromRecorder_Process.py` operations.
+- Operates on every subfolder in the specified folder.
+
+- `python Batch_Data_FromRecorder_Process.py [--help] <Folder_Batch_Data_FromRecorder_Name>`
+
 ## [`Data_FromRecorder_Process.py`](./Data_FromRecorder_Process.py)
 
 - Processes a data folder (from ViSCA Recorder).
