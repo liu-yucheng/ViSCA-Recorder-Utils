@@ -202,7 +202,12 @@ def _Video_Concat_Perform():
     # end for
 
     Video_Input_Names = Video_Input_Names_New
-    Video_Input1_basename = _os_path.basename(Video_Input_Names[0])
+
+    if len(Video_Input_Names) >= 1:
+        Video_Input1_basename = _os_path.basename(Video_Input_Names[0])
+    else:
+        Video_Input1_basename = "EmptyVideo.mp4"
+
     Video_Input1_NoExt, _ = _os_path.splitext(Video_Input1_basename)
     _Video_Concat.Folder_Data_Name = Folder_Video_Concat_Name
 
@@ -269,12 +274,27 @@ def _JSON_FromRecorder_Concat_Perform():
     _JSON_FromRecorder_Concat.Main()
 
 
-def _Batch_Video_FromRecorderImages_WithSickness_Convert_Perform():
+def _Batch_Video_FromRecorderImages_WithSickness_Convert_Perform(
+    WithSickness_TimeBefore_Seconds,
+    WithSickness_TimeAfter_Seconds
+):
+    print(
+        f"begin {_nameof(_Batch_Video_FromRecorderImages_WithSickness_Convert_Perform)}\n"
+        f"{WithSickness_TimeBefore_Seconds = :.3f}\n"
+        + f"{WithSickness_TimeAfter_Seconds = :.3f}"
+    )
+
     _Batch_Video_FromRecorderImages_WithSickness_Convert.Folder_Data_Name \
     = Folder_Batch_Video_FromRecorderImages_WithSickness_Convert_Name
 
     _Batch_Video_FromRecorderImages_WithSickness_Convert.Folder_Output_Name \
     = Folder_Batch_Video_FromRecorderImages_WithSickness_Convert_Name
+
+    _Batch_Video_FromRecorderImages_WithSickness_Convert.Clips_WithSickness_TimeBefore_Seconds \
+    = WithSickness_TimeBefore_Seconds
+
+    _Batch_Video_FromRecorderImages_WithSickness_Convert.Clips_WithSickness_TimeAfter_Seconds \
+    = WithSickness_TimeAfter_Seconds
 
     _Batch_Video_FromRecorderImages_WithSickness_Convert.Arguments_Overridden \
     = True
@@ -283,9 +303,19 @@ def _Batch_Video_FromRecorderImages_WithSickness_Convert_Perform():
     = Folder_Data_FromRecorder_Name
 
     _Batch_Video_FromRecorderImages_WithSickness_Convert.Main()
+    print(f"end {_nameof(_Batch_Video_FromRecorderImages_WithSickness_Convert_Perform)}")
 
 
-def _Video_Concat_WithSickness_Perform():
+def _Video_Concat_WithSickness_Perform(
+    WithSickness_TimeBefore_Seconds,
+    WithSickness_TimeAfter_Seconds
+):
+    print(
+        f"begin {_nameof(_Video_Concat_WithSickness_Perform)}\n"
+        f"{WithSickness_TimeBefore_Seconds = :.3f}\n"
+        + f"{WithSickness_TimeAfter_Seconds = :.3f}"
+    )
+
     Video_Input_Names \
     = _os.listdir(
         Folder_Batch_Video_FromRecorderImages_WithSickness_Convert_Name
@@ -320,7 +350,7 @@ def _Video_Concat_WithSickness_Perform():
     if len(Video_Input_Names) >= 1:
         Video_Input1_basename = _os_path.basename(Video_Input_Names[0])
     else:
-        Video_Input1_basename = "empty-video.mp4"
+        Video_Input1_basename = "EmptyVideo.mp4"
 
     Video_Input1_NoExt, _ = _os_path.splitext(Video_Input1_basename)
     _Video_Concat.Folder_Data_Name = Folder_Video_Concat_WithSickness_Name
@@ -328,14 +358,14 @@ def _Video_Concat_WithSickness_Perform():
     _Video_Concat.File_Concat_Name \
     = _os_path.join(
         Folder_Video_Concat_WithSickness_Name,
-        f"Concat_WithSickness_{Video_Input1_NoExt}.txt"
+        f"Concat_WithSickness_Before-{WithSickness_TimeBefore_Seconds:.3f}_After-{WithSickness_TimeAfter_Seconds:.3f}_{Video_Input1_NoExt}.txt"
     )
     # end statement
 
     _Video_Concat.Video_Output_Name \
     = _os_path.join(
         Folder_Outputs_Name,
-        f"Concat_WithSickness_{Video_Input1_NoExt}.mp4"
+        f"Concat_WithSickness_Before-{WithSickness_TimeBefore_Seconds:.3f}_After-{WithSickness_TimeAfter_Seconds:.3f}_{Video_Input1_NoExt}.mp4"
     )
     # end statement
 
@@ -345,9 +375,19 @@ def _Video_Concat_WithSickness_Perform():
     = Folder_Batch_Video_FromRecorderImages_WithSickness_Convert_Name
 
     _Video_Concat.Main()
+    print(f"end {_nameof(_Video_Concat_WithSickness_Perform)}")
 
 
-def _JSON_FromRecorder_WithSickness_Concat_Perform():
+def _JSON_FromRecorder_WithSickness_Concat_Perform(
+    WithSickness_TimeBefore_Seconds,
+    WithSickness_TimeAfter_Seconds
+):
+    print(
+        f"begin {_nameof(_JSON_FromRecorder_WithSickness_Concat_Perform)}\n"
+        f"{WithSickness_TimeBefore_Seconds = :.3f}\n"
+        + f"{WithSickness_TimeAfter_Seconds = :.3f}"
+    )
+
     JSON_Input_Names = _os.listdir(Folder_Data_FromRecorder_Name)
     JSON_Input_Names.sort()
 
@@ -373,10 +413,10 @@ def _JSON_FromRecorder_WithSickness_Concat_Perform():
     JSON_Input1_NoExt, _ = _os_path.splitext(JSON_Input1_basename)
 
     _JSON_FromRecorder_WithSickness_Concat.Items_WithSickness_TimeBefore_Seconds \
-    = 0.5
+    = WithSickness_TimeBefore_Seconds
 
     _JSON_FromRecorder_WithSickness_Concat.Items_WithSickness_TimeAfter_Seconds \
-    = 0.5
+    = WithSickness_TimeAfter_Seconds
 
     _JSON_FromRecorder_WithSickness_Concat.Folder_Data_Name \
     = Folder_JSON_FromRecorder_Concat_Name
@@ -384,13 +424,13 @@ def _JSON_FromRecorder_WithSickness_Concat_Perform():
     _JSON_FromRecorder_WithSickness_Concat.Output_JSON_Name \
     = _os_path.join(
         Folder_Outputs_Name,
-        f"Concat_WithSickness_{JSON_Input1_NoExt}.json"
+        f"Concat_WithSickness_Before-{WithSickness_TimeBefore_Seconds:.3f}_After-{WithSickness_TimeAfter_Seconds:.3f}_{JSON_Input1_NoExt}.json"
     )
 
     _JSON_FromRecorder_WithSickness_Concat.Output_JSON_Flattened_Name \
     = _os_path.join(
         Folder_Outputs_Name,
-        f"Concat_WithSickness_Flattened_{JSON_Input1_NoExt}.json"
+        f"Concat_Flattened_WithSickness_Before-{WithSickness_TimeBefore_Seconds:.3f}_After-{WithSickness_TimeAfter_Seconds:.3f}_{JSON_Input1_NoExt}.json"
     )
 
     _JSON_FromRecorder_WithSickness_Concat.Arguments_Overridden = True
@@ -399,6 +439,7 @@ def _JSON_FromRecorder_WithSickness_Concat_Perform():
     = Folder_Data_FromRecorder_Name
 
     _JSON_FromRecorder_WithSickness_Concat.Main()
+    print(f"end {_nameof(_JSON_FromRecorder_WithSickness_Concat_Perform)}")
 
 
 def Main():
@@ -411,9 +452,26 @@ def Main():
     _Batch_Video_FromRecorderImages_Convert_Perform()
     _Video_Concat_Perform()
     _JSON_FromRecorder_Concat_Perform()
-    _Batch_Video_FromRecorderImages_WithSickness_Convert_Perform()
-    _Video_Concat_WithSickness_Perform()
-    _JSON_FromRecorder_WithSickness_Concat_Perform()
+
+    _Batch_Video_FromRecorderImages_WithSickness_Convert_Perform(
+        float(3),
+        float(3),
+    )
+
+    _Video_Concat_WithSickness_Perform(
+        float(3),
+        float(3),
+    )
+
+    _JSON_FromRecorder_WithSickness_Concat_Perform(
+        float(3),
+        float(3),
+    )
+
+    _JSON_FromRecorder_WithSickness_Concat_Perform(
+        0.5,
+        0.5,
+    )
 
     print(
         f"{Folder_Data_FromRecorder_Name = :s}\n"

@@ -25,7 +25,7 @@ Script_NoExt, _ = _os_path.splitext(_Script_basename)
 Clips_WithSickness_TimeBefore_Seconds = None
 Clips_WithSickness_TimeAfter_Seconds = None
 Clips_WithSickness_TimeBetween_Max_Seconds = None
-Clips_WithSickness_Sickness_SicknessThreshold = float(0.75)
+Clips_WithSickness_Sickness_SicknessThreshold = None
 Folder_Data_Name = None
 File_Concat_Name = None
 Video_Name = None
@@ -36,19 +36,23 @@ Folder_Images_Name = None
 def _Context_Create():
     global Clips_WithSickness_TimeBefore_Seconds
     global Clips_WithSickness_TimeAfter_Seconds
+    global Clips_WithSickness_Sickness_SicknessThreshold
     global Clips_WithSickness_TimeBetween_Max_Seconds
     global Folder_Data_Name
     global File_Concat_Name
     global Video_Name
 
     if Clips_WithSickness_TimeBefore_Seconds is None:
-        Clips_WithSickness_TimeBefore_Seconds = 0.5
+        Clips_WithSickness_TimeBefore_Seconds = float(3)
 
     if Clips_WithSickness_TimeAfter_Seconds is None:
-        Clips_WithSickness_TimeAfter_Seconds = 0.5
+        Clips_WithSickness_TimeAfter_Seconds = float(3)
+
+    if Clips_WithSickness_Sickness_SicknessThreshold is None:
+        Clips_WithSickness_Sickness_SicknessThreshold = float(0.75)
 
     if Clips_WithSickness_TimeBetween_Max_Seconds is None:
-        Clips_WithSickness_TimeBetween_Max_Seconds = 3
+        Clips_WithSickness_TimeBetween_Max_Seconds = float(3)
 
     if Folder_Data_Name is None:
         Folder_Data_Name = _os_path.dirname(__file__)
