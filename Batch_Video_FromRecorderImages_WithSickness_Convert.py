@@ -24,6 +24,8 @@ _Folder_Images_Names = None
 Script_NoExt, _ = _os_path.splitext(_Script_basename)
 Folder_Data_Name = None
 Folder_Output_Name = None
+Clips_WithSickness_TimeBefore_Seconds = None
+Clips_WithSickness_TimeAfter_Seconds = None
 Arguments_Overridden = False
 Folder_NestedImages_Name = None
 
@@ -31,6 +33,8 @@ Folder_NestedImages_Name = None
 def _Context_Create():
     global Folder_Data_Name
     global Folder_Output_Name
+    global Clips_WithSickness_TimeBefore_Seconds
+    global Clips_WithSickness_TimeAfter_Seconds
 
     if Folder_Data_Name is None:
         Folder_Data_Name = _os_path.dirname(__file__)
@@ -50,6 +54,14 @@ def _Context_Create():
     # end if
 
     _os.makedirs(Folder_Output_Name, exist_ok=True)
+
+    if Clips_WithSickness_TimeBefore_Seconds is None:
+        Clips_WithSickness_TimeBefore_Seconds = float(3)
+    # end if
+
+    if Clips_WithSickness_TimeAfter_Seconds is None:
+        Clips_WithSickness_TimeAfter_Seconds = float(3)
+    # end if
 
 
 def _Arguments_Parse():
@@ -123,26 +135,29 @@ def _Batch_Operations_Perform():
         print(f"begin Operation {Index + 1} / {len(_Folder_Images_Names)}")
         Folder_basename = _os_path.basename(Folder_Name)
 
-        _Video_FromRecorderImages_WithSickness_Convert\
-            .Clips_WithSickness_TimeBefore_Seconds \
-        = 0.5
+        _Video_FromRecorderImages_WithSickness_Convert.Clips_WithSickness_TimeBefore_Seconds \
+        = Clips_WithSickness_TimeBefore_Seconds
 
-        _Video_FromRecorderImages_WithSickness_Convert\
-            .Clips_WithSickness_TimeAfter_Seconds \
-        = 0.5
+        _Video_FromRecorderImages_WithSickness_Convert.Clips_WithSickness_TimeAfter_Seconds \
+        = Clips_WithSickness_TimeAfter_Seconds
 
-        _Video_FromRecorderImages_WithSickness_Convert\
-            .Clips_WithSickness_TimeBetween_Max_Seconds \
-        = 3
+        _Video_FromRecorderImages_WithSickness_Convert.Clips_WithSickness_TimeBetween_Max_Seconds \
+        = float(3)
 
         _Video_FromRecorderImages_WithSickness_Convert.Folder_Data_Name \
         = Folder_Output_Name
 
         _Video_FromRecorderImages_WithSickness_Convert.File_Concat_Name \
-        = _os_path.join(Folder_Output_Name, f"{Folder_basename}.txt")
+        = _os_path.join(
+            Folder_Output_Name,
+            f"{Folder_basename}.txt"
+        )
 
         _Video_FromRecorderImages_WithSickness_Convert.Video_Name \
-        = _os_path.join(Folder_Output_Name, f"{Folder_basename}.mp4")
+        = _os_path.join(
+            Folder_Output_Name,
+            f"{Folder_basename}.mp4"
+        )
 
         _Video_FromRecorderImages_WithSickness_Convert.Arguments_Overridden \
         = True
@@ -168,7 +183,9 @@ def Main():
 
     print(
         f"{Folder_NestedImages_Name = :s}\n"
-        + f"{Folder_Output_Name = :s}"
+        + f"{Folder_Output_Name = :s}\n"
+        + f"{Clips_WithSickness_TimeBefore_Seconds = :.3f}\n"
+        + f"{Clips_WithSickness_TimeAfter_Seconds = :.3f}\n"
     )
 
     print(f"end {_Script_basename}")
