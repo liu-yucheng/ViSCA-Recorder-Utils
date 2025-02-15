@@ -30,7 +30,7 @@ _Record_Concat_Flattened = None
 Script_NoExt, _ = _os_path.splitext(_Script_basename)
 Items_WithSickness_TimeBefore_Seconds = None
 Items_WithSickness_TimeAfter_Seconds = None
-Items_WithSickness_SicknessThreshold = float(0.75)
+Items_WithSickness_SicknessThreshold = None
 Folder_Data_Name = None
 Output_JSON_Name = None
 Output_JSON_Flattened_Name = None
@@ -41,15 +41,19 @@ Input_Folder_JSONs_Name = None
 def _Context_Create():
     global Items_WithSickness_TimeBefore_Seconds
     global Items_WithSickness_TimeAfter_Seconds
+    global Items_WithSickness_SicknessThreshold
     global Folder_Data_Name
     global Output_JSON_Name
     global Output_JSON_Flattened_Name
 
     if Items_WithSickness_TimeBefore_Seconds is None:
-        Items_WithSickness_TimeBefore_Seconds = 0.5
+        Items_WithSickness_TimeBefore_Seconds = float(3)
 
     if Items_WithSickness_TimeAfter_Seconds is None:
-        Items_WithSickness_TimeAfter_Seconds = 0.5
+        Items_WithSickness_TimeAfter_Seconds = float(3)
+
+    if Items_WithSickness_SicknessThreshold is None:
+        Items_WithSickness_SicknessThreshold = float(0.75)
 
     if Folder_Data_Name is None:
         Folder_Data_Name = _os_path.dirname(__file__)
