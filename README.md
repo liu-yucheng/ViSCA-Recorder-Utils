@@ -13,80 +13,91 @@
 
 # Usage
 
-## [`Batch_Data_FromRecorder_Process.py`](./Batch_Data_FromRecorder_Process.py)
+## [./data_from_recorder__batch_process.py](./data_from_recorder__batch_process.py)
 
-- Performs a batch of `Data_FromRecorder_Process.py` operations.
+- Performs a batch of `./data_from_recorder__process.py` operations.
 - Operates on every subfolder in the specified folder.
+- `python ./data_from_recorder__batch_process.py [--help] <folder_name__batch_data_from_recorder>`
 
-- `python Batch_Data_FromRecorder_Process.py [--help] <Folder_Batch_Data_FromRecorder_Name>`
-
-## [`Data_FromRecorder_Process.py`](./Data_FromRecorder_Process.py)
+## [./data_from_recorder__process.py](./data_from_recorder__process.py)
 
 - Processes a data folder (from ViSCA Recorder).
 ---
-- Step 1-1. Uses `Batch_Video_FromRecorderImages_Convert.py`. Converts all captured nested image folders into video clips.
-- Step 1-2. Uses `Video_Concat.py`. Concatenates all video clips (from step 1-1) into 1 video.
-- Step 1-3. Uses `JSON_FromRecorder_Concat.py`. Concatenates all recorded JSON files into 1 JSON file.
+- Step 1-1.
+Uses `./video_from_recorder__batch_convert.py`.
+Converts all captured nested image folders into video clips.
+- Step 1-2.
+Uses `./video__concat.py`.
+Concatenates all video clips (from step 1-1) into 1 video.
+- Step 1-3.
+Uses `./json_from_recorder__concat.py`.
+Concatenates all recorded JSON files into 1 JSON file.
 ---
-- Step 2-1. Uses `Batch_Video_FromRecorderImages_WithSickness_Convert.py`. Converts all captured nested image folders into video clips (including clips with sickness only).
-- Step 2-2. Uses `Video_Concat.py`. Concatenates all video clips (from step 2-1) into 1 video.
-- Step 2-3. Uses `JSON_FromRecorder_Concat.py`. Concatenates all recorded JSON files into 1 JSON file (including items with sickness only).
+- Step 2-1.
+Uses `./video_from_recorder_with_sickness__batch_convert.py`. 
+Converts all captured nested image folders into video clips (including clips with sickness only).
+- Step 2-2.
+Uses `./video__concat.py`.
+Concatenates all video clips (from step 2-1) into 1 video.
+- Step 2-3.
+Uses `./json_from_recorder_with_sickness__concat.py`.
+Concatenates all recorded JSON files into 1 JSON file (including items with sickness only).
 ---
-- `python Data_FromRecorder_Process.py [--help] <Folder_Data_FromRecorder_Name>`
+- `python ./data_from_recorder__process.py [--help] <folder_name__data_from_recorder>`
 
-## [`Batch_Video_FromRecorderImages_Convert.py`](./Batch_Video_FromRecorderImages_Convert.py)
+## [./video_from_recorder__batch_convert.py](./video_from_recorder__batch_convert.py)
 
-- Performs a batch of `Batch_Video_FromRecorderImages_Convert.py` operations.
-- `python Batch_Video_FromRecorderImages_Convert.py [--help] <Folder_NestedImages_Name>`
+- Performs a batch of `./video_from_recorder__convert.py` operations.
+- `python ./video_from_recorder__batch_convert.py [--help] <folder_name__images_nested>`
 
-## [`Batch_Video_FromRecorderImages_WithSickness_Convert.py`](./Batch_Video_FromRecorderImages_WithSickness_Convert.py)
+## [./video_from_recorder_with_sickness__batch_convert.py](./video_from_recorder_with_sickness__batch_convert.py)
 
-- Performs a batch of `Video_FromRecorderImages_WithSickness_Convert.py` operations.
-- `python Batch_Video_FromRecorderImages_WithSickness_Convert.py [--help] <Folder_NestedImages_Name>`
+- Performs a batch of `./video_from_recorder_with_sickness__convert.py` operations.
+- `python ./video_from_recorder_with_sickness__batch_convert.py [--help] <folder_name__images_nested>`
 
-## [`Video_FromRecorderImages_Convert.py`](./Video_FromRecorderImages_Convert.py)
+## [./video_from_recorder__convert.py](./video_from_recorder__convert.py)
 
 - Converts an image sequence (from ViSCA Recorder) to a video.
-- Image name `C printf` formats.
+- Supported image file name `C printf` formats.
   - `time_%06.6f_sickness_%01.1f.png`.
-  - or `time_%06.6f_sickness_%01.1f.jpg`.
-- Image sequence time unit: seconds.
-- `python Video_FromRecorderImages_Convert.py [--help] <Folder_Images_Name>`
+  - `time_%06.6f_sickness_%01.1f.jpg`.
+- Image sequence time format and unit: float, seconds.
+- `python ./video_from_recorder__convert.py [--help] <folder_name__images>`
 
-## [`Video_FromRecorderImages_WithSickness_Convert.py`](./Video_FromRecorderImages_WithSickness_Convert.py)
+## [./video_from_recorder_with_sickness__convert.py](./video_from_recorder_with_sickness__convert.py)
 
 - Converts an image sequence (from ViSCA Recorder) to a video (includes clips with sickness only).
-- Image name `C printf` formats.
+- Supported image file name `C printf` formats.
   - `time_%06.6f_sickness_%01.1f.png`.
-  - or `time_%06.6f_sickness_%01.1f.jpg`.
-- Image sequence time unit: seconds.
-- `python Video_FromRecorderImages_WithSickness_Convert.py [--help] <Folder_Images_Name>`
+  - `time_%06.6f_sickness_%01.1f.jpg`.
+- Image sequence time format and unit: float, seconds.
+- `python ./video_from_recorder_with_sickness__convert.py [--help] <folder_name__images>`
 
-## [`JSON_FromRecorder_Concat.py`](./JSON_FromRecorder_Concat.py)
+## [./json_from_recorder__concat.py](./json_from_recorder__concat.py)
 
 - Concatenates a sequence of JSON (from ViSCA Recorder) files.
 - Concatenates JSONs in ascending alphanumerical order.
 - Creates a copy of concatenated JSONs in which the `items` get flattened into `items__flattened`.
-- `python JSON_FromRecorder_Concat.py [--help] <Input_Folder_JSONs_Name>`
+- `python ./json_from_recorder__concat.py [--help] <folder_name__jsons_input>`
 
-## [`JSON_FromRecorder_WithSickness_Concat.py`](./JSON_FromRecorder_WithSickness_Concat.py)
+## [./json_from_recorder_with_sickness__concat.py](./json_from_recorder_with_sickness__concat.py)
 
 - Concatenates a sequence of JSON (from ViSCA Recorder) files (includes items with sickness only).
 - Concatenates JSONs in ascending alphanumerical order.
 - Creates a copy of concatenated JSONs in which the `items` get flattened into `items__flattened`.
-- `python JSON_FromRecorder_WithSickness_Concat.py [--help] <Input_Folder_JSONs_Name>`
+- `python ./json_from_recorder_with_sickness__concat.py [--help] <folder_name__jsons_input>`
 
-## [`Video_Concat.py`](./Video_Concat.py)
+## [./video__concat.py](./video__concat.py)
 
 - Concatenates a sequence of videos.
 - Concatenates video in ascending alphanumerical order.
-- `python Video_Concat.py [--help] <Videos_Input_Name>`
+- `python ./video__concat.py [--help] <folder_name__videos_input>`
 
-## ~~[`Video_Blend.py`](./Video_Blend.py)~~ (Deprecated)
+## ~~[./video__blend.py](./video__blend.py)~~ (Deprecated)
 
 - Blends 2 videos into 1 video.
-- Uses the 2nd video as an overlay on the 1st video.
-- `python Video_Blend.py [--help] <Video_Input1_Name> <Video_Input2_Name>`
+- Uses the 2nd video as a semi-transparent overlay on the 1st video.
+- `python ./video__blend.py [--help] <file_name__video_1> <file_name__video_2>`
 
 # Copyright
 
