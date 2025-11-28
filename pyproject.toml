@@ -1,0 +1,13 @@
+[project]
+name = "visca-recorder-utils"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "numpy>=2.3.5",
+    "pandas>=2.3.3",
+    "python-dateutil>=2.9.0.post0",
+    "python-ffmpeg>=2.0.12",
+    "varname>=0.15.0",
+]
