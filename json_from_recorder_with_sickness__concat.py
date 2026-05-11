@@ -153,17 +153,17 @@ def _jsons__concat():
 
     _record_concat = {
         "visca_recorder_utils": {
-            "files_concat": [],
-            "json_flatten_enabled": False,
-            "filter_with_sickness": {
-                "time_s__before_sickness": time_s__before_sickness,
-                "time_s__after_sickness": time_s__after_sickness,
-                "sickness_threshold": sickness_threshold,
+            "files__concatenated": [],
+            "json__flattening_enabled": False,
+            "filters__with_sickness": {
+                "items__with_sickness__time_before": time_s__before_sickness,
+                "items__with_sickness__time_after": time_s__after_sickness,
+                "items__with_sickness__threshold": sickness_threshold,
             },
-            "sickness_stats": {
-                "time_s__on_sickness": 0.0,
-                "time_s__total": 0.0,
-                "proportion_on_sickness": 0.0,
+            "sickness__statistics": {
+                "time__with_sickness__seconds": 0.0,
+                "time__total__seconds": 0.0,
+                "time_proportion__with_sickness": 0.0,
             },
         },
         "items": [],
@@ -186,7 +186,7 @@ def _jsons__concat():
             _record_concat["items"] += items
         # end if
 
-        _record_concat["visca_recorder_utils"]["files_concat"].append(basename__json_input)
+        _record_concat["visca_recorder_utils"]["files__concatenated"].append(basename__json_input)
         print(f"end Concatenating {index + 1} / {len(_file_names__jsons_input)} {basename__json_input}")
     # end for
 
@@ -226,9 +226,9 @@ def _jsons__concat():
     # end for
 
     proportion_on_sickness = time_s__on_sickness / time_s__total
-    _record_concat["visca_recorder_utils"]["sickness_stats"]["time_s__on_sickness"] = time_s__on_sickness
-    _record_concat["visca_recorder_utils"]["sickness_stats"]["time_s__total"] = time_s__total
-    _record_concat["visca_recorder_utils"]["sickness_stats"]["proportion_on_sickness"] = proportion_on_sickness
+    _record_concat["visca_recorder_utils"]["sickness__statistics"]["time__with_sickness__seconds"] = time_s__on_sickness
+    _record_concat["visca_recorder_utils"]["sickness__statistics"]["time__total__seconds"] = time_s__total
+    _record_concat["visca_recorder_utils"]["sickness__statistics"]["time_proportion__with_sickness"] = proportion_on_sickness
     indexes_on_sickness = list(indexes_on_sickness__dict.keys())
     indexes_on_sickness.sort()
     print("end Finding on-sickness indexes")
@@ -334,7 +334,7 @@ def _jsons_flattened__concat():
 
     _record_concat_flattened = {
         "visca_recorder_utils": dict(_record_concat["visca_recorder_utils"]),
-        "items_flattened": [],
+        "items__flattened": [],
     }
     # end statement
 
@@ -342,8 +342,8 @@ def _jsons_flattened__concat():
     items = _record_concat["items"]
     items_dataframe = _pandas.json_normalize(items, sep=".")
     items_flattened = items_dataframe.to_dict(orient="records")
-    _record_concat_flattened["items_flattened"] = items_flattened
-    print(f"{len(_record_concat_flattened["items_flattened"]) = }")
+    _record_concat_flattened["items__flattened"] = items_flattened
+    print(f"{len(_record_concat_flattened["items__flattened"]) = }")
 
     with open(file_name__json_output_flattened, "w", encoding="utf-8") as file__json_output_flattened:
         _json.dump(_record_concat_flattened, file__json_output_flattened, indent=4)
