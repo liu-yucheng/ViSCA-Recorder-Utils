@@ -135,8 +135,8 @@ def _jsons__concat():
 
     _record_concat = {
         "visca_recorder_utils": {
-            "files_concat": [],
-            "json_flatten_enabled": False
+            "files__concatenated": [],
+            "json__flattening_enabled": False
         },
         "items": [],
     }
@@ -158,7 +158,7 @@ def _jsons__concat():
             _record_concat["items"] += items
         # end if
 
-        _record_concat["visca_recorder_utils"]["files_concat"].append(basename__json_input)
+        _record_concat["visca_recorder_utils"]["files__concatenated"].append(basename__json_input)
         print(f"end Concatenating {index + 1} / {len(_file_names__jsons_input)} {basename__json_input}")
     # end for
 
@@ -177,16 +177,16 @@ def _jsons_flattened__concat():
 
     _record_concat_flattened = {
         "visca_recorder_utils": dict(_record_concat["visca_recorder_utils"]),
-        "items_flattened": [],
+        "items__flattened": [],
     }
     # end statement
 
-    _record_concat_flattened["visca_recorder_utils"]["json_flatten_enabled"]= True
+    _record_concat_flattened["visca_recorder_utils"]["json__flattening_enabled"]= True
     items = _record_concat["items"]
     items_dataframe = _pandas.json_normalize(items, sep=".")
     items_flattened = items_dataframe.to_dict(orient="records")
-    _record_concat_flattened["items_flattened"] = items_flattened
-    print(f"{len(_record_concat_flattened["items_flattened"]) = }")
+    _record_concat_flattened["items__flattened"] = items_flattened
+    print(f"{len(_record_concat_flattened["items__flattened"]) = }")
 
     with open(file_name__json_output_flattened, "w", encoding="utf-8") as file__json_output_flattened:
         _json.dump(_record_concat_flattened, file__json_output_flattened, indent=4)
